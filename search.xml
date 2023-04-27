@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Spring事务传播Propagation.REQUIRES_NEW</title>
+    <url>/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/</url>
+    <content><![CDATA[<p>新建事务，如果当前存在事务，把当前事务挂起。</p>
+<p>在特殊需求的时候需要在一个方法内部<code>提前提交一部分事务</code>或者是让内部的一段代码处于<code>单独的一个事务管理</code>的时候需要用到REQUIRES_NEW</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@transaction</span>    </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testMethod</span><span class="params">()</span>&#123;</span><br><span class="line">     dosomethingBefore...</span><br><span class="line">     methodA();</span><br><span class="line">     dosomgthingAfter...</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodA</span><span class="params">()</span>&#123;</span><br><span class="line">     updateSomething();</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>dosomethingBefore执行失败，testMethod直接回滚</p>
+<p>updateSomething异常，回滚methodA，按照上述代码，全都回滚，如果被catch，就只回滚methodA</p>
+<p>dosomgthingAfter异常，methodA事务已经提交，但testMethod中的修改全部回滚</p>
+<p>PS：<br><a href="https://www.jianshu.com/p/3e9267b025b2">Propagation.REQUIRES_NEW</a></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Thinking about Lambda</title>
+    <url>/2023/04/27/Think-of-Lambda/</url>
+    <content><![CDATA[<p>当我们在Java中使用Lambda表达式时，它们经常用于在一个函数中传递行为，即将Lambda表达式作为参数传递给方法，然后在方法中执行。<br>Java8实战这本书中的log方法传递Lambda参数执行的例子，是通过Lambda表达式实现在打印日志的同时打印出该日志执行的时间。<br>首先，我们创建一个Logger类，它的构造函数接受一个布尔值参数debug，用于确定是否打印日志。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Logger</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">boolean</span> debug;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Logger</span><span class="params">(<span class="type">boolean</span> debug)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.debug = debug;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">log</span><span class="params">(String message)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (debug) &#123;</span><br><span class="line">      System.out.println(LocalDateTime.now() + <span class="string">&quot;: &quot;</span> + message);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们编写一个doSomething方法，该方法接受一个字符串和一个函数式接口作为参数。在方法中，我们打印日志并执行传入的函数式接口。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">doSomething</span><span class="params">(String message, Runnable runnable)</span> &#123;</span><br><span class="line">    <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Logger</span>(<span class="literal">true</span>);</span><br><span class="line">    logger.log(<span class="string">&quot;Start &quot;</span> + message);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      runnable.run();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</span><br><span class="line">      logger.log(<span class="string">&quot;Error: &quot;</span> + e.getMessage());</span><br><span class="line">      <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">    logger.log(<span class="string">&quot;Finish &quot;</span> + message);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>doSomething方法先创建一个Logger对象来打印日志，然后在执行函数式接口之前打印“Start”日志，在执行后打印“Finish”日志。如果函数式接口抛出异常，则记录错误信息并将其继续传播。<br>最后，我们可以利用Lambda表达式调用doSomething方法，传递一个字符串和一个无参Lambda表达式，该Lambda表达式打印当前系统时间和一条消息。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    Demo.doSomething(<span class="string">&quot;Print currentTime&quot;</span>, () -&gt; System.out.println(LocalDateTime.now()));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将打印当前系统时间的Lambda表达式作为第二个参数传递给了doSomething方法。<br>当run方法在doSomething方法中执行时，打印当前时间的Lambda表达式就会被执行，并打印出当前时间。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+</search>
