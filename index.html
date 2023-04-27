@@ -145,6 +145,72 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="NNZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0484cjagw">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/" class="post-title-link" itemprop="url">Spring事务传播Propagation.REQUIRES_NEW</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-04-27 13:42:32 / Modified: 13:42:53" itemprop="dateCreated datePublished" datetime="2023-04-27T13:42:32+08:00">2023-04-27</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>新建事务，如果当前存在事务，把当前事务挂起。</p>
+<p>在特殊需求的时候需要在一个方法内部<code>提前提交一部分事务</code>或者是让内部的一段代码处于<code>单独的一个事务管理</code>的时候需要用到REQUIRES_NEW</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@transaction</span>    </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testMethod</span><span class="params">()</span>&#123;</span><br><span class="line">     dosomethingBefore...</span><br><span class="line">     methodA();</span><br><span class="line">     dosomgthingAfter...</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodA</span><span class="params">()</span>&#123;</span><br><span class="line">     updateSomething();</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>dosomethingBefore执行失败，testMethod直接回滚</p>
+<p>updateSomething异常，回滚methodA，按照上述代码，全都回滚，如果被catch，就只回滚methodA</p>
+<p>dosomgthingAfter异常，methodA事务已经提交，但testMethod中的修改全部回滚</p>
+<p>PS：<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3e9267b025b2">Propagation.REQUIRES_NEW</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/27/Think-of-Lambda/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -403,12 +469,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
