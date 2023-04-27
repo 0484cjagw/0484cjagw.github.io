@@ -173,6 +173,78 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0PDF%E5%AF%BC%E5%87%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="NNZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0484cjagw">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0PDF%E5%AF%BC%E5%87%BA/" class="post-title-link" itemprop="url">设计模式实现PDF导出</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-04-27 15:57:05 / Modified: 15:58:23" itemprop="dateCreated datePublished" datetime="2023-04-27T15:57:05+08:00">2023-04-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-pattern/" itemprop="url" rel="index"><span itemprop="name">Design pattern</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>一个导出PDF的需求，使用Builder设计模式，用于简化传递参数和执行多次画线操作的流程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PdfBuilder</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> pageNumber;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> pageWidth;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> pageHeight;</span><br><span class="line">    <span class="keyword">private</span> List&lt;PdfLine&gt; lines = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfBuilder <span class="title function_">setPageNumber</span><span class="params">(<span class="type">int</span> pageNumber)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.pageNumber = pageNumber;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfBuilder <span class="title function_">setPageWidth</span><span class="params">(<span class="type">int</span> pageWidth)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.pageWidth = pageWidth;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfBuilder <span class="title function_">setPageHeight</span><span class="params">(<span class="type">int</span> pageHeight)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.pageHeight = pageHeight;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfBuilder <span class="title function_">addLine</span><span class="params">(<span class="type">int</span> startX, <span class="type">int</span> startY, <span class="type">int</span> endX, <span class="type">int</span> endY)</span> &#123;</span><br><span class="line">        lines.add(<span class="keyword">new</span> <span class="title class_">PdfLine</span>(startX, startY, endX, endY));</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfDocument <span class="title function_">build</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 创建 PDF 文档对象</span></span><br><span class="line">        <span class="type">PdfDocument</span> <span class="variable">pdf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PdfDocument</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 添加 PDF 页面</span></span><br><span class="line">        <span class="type">PdfPage</span> <span class="variable">page</span> <span class="operator">=</span> pdf.addNewPage(pageWidth, pageHeight, pageNumber);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在页面上画线</span></span><br><span class="line">        <span class="keyword">for</span> (PdfLine line : lines) &#123;</span><br><span class="line">            <span class="type">PdfCanvas</span> <span class="variable">canvas</span> <span class="operator">=</span> page.getCanvas();</span><br><span class="line">            canvas.beginText();</span><br><span class="line">            canvas.moveText(line.getStartX(), line.getStartY());</span><br><span class="line">            canvas.lineTo(line.getEndX(), line.getEndY());</span><br><span class="line">            canvas.stroke();</span><br><span class="line">            canvas.endText();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 返回 PDF 文档对象</span></span><br><span class="line">        <span class="keyword">return</span> pdf;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先定义一个 <code>PdfBuilder</code> 类用于组合 PDF 页面。通过调用 <code>setPageNumber()</code>、<code>setPageWidth()</code>、<code>setPageHeight()</code>、<code>addLine()</code> 方法来设置页面属性和画线操作，最后通过调用 <code>build()</code> 方法将页面属性和画线操作组合为一个 PDF 文档对象并返回。</p>
+<p>使用 Builder 设计模式可以让代码更加易读和易维护，同时避免了参数传递过程中出错的风险。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/27/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84DCL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -453,13 +525,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">

@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Spring事务传播Propagation.REQUIRES_NEW</title>
+    <url>/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/</url>
+    <content><![CDATA[<p>新建事务，如果当前存在事务，把当前事务挂起。</p>
+<p>在特殊需求的时候需要在一个方法内部<code>提前提交一部分事务</code>或者是让内部的一段代码处于<code>单独的一个事务管理</code>的时候需要用到REQUIRES_NEW</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@transaction</span>    </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testMethod</span><span class="params">()</span>&#123;</span><br><span class="line">     dosomethingBefore...</span><br><span class="line">     methodA();</span><br><span class="line">     dosomgthingAfter...</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodA</span><span class="params">()</span>&#123;</span><br><span class="line">     updateSomething();</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>dosomethingBefore执行失败，testMethod直接回滚</p>
+<p>updateSomething异常，回滚methodA，按照上述代码，全都回滚，如果被catch，就只回滚methodA</p>
+<p>dosomgthingAfter异常，methodA事务已经提交，但testMethod中的修改全部回滚</p>
+<p>PS：<br><a href="https://www.jianshu.com/p/3e9267b025b2">Propagation.REQUIRES_NEW</a></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Thinking about Lambda</title>
     <url>/2023/04/27/Think-of-Lambda/</url>
     <content><![CDATA[<p>当我们在Java中使用Lambda表达式时，它们经常用于在一个函数中传递行为，即将Lambda表达式作为参数传递给方法，然后在方法中执行。<br>Java8实战这本书中的log方法传递Lambda参数执行的例子，是通过Lambda表达式实现在打印日志的同时打印出该日志执行的时间。<br>首先，我们创建一个Logger类，它的构造函数接受一个布尔值参数debug，用于确定是否打印日志。</p>
@@ -22,25 +41,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Spring事务传播Propagation.REQUIRES_NEW</title>
-    <url>/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/</url>
-    <content><![CDATA[<p>新建事务，如果当前存在事务，把当前事务挂起。</p>
-<p>在特殊需求的时候需要在一个方法内部<code>提前提交一部分事务</code>或者是让内部的一段代码处于<code>单独的一个事务管理</code>的时候需要用到REQUIRES_NEW</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@transaction</span>    </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testMethod</span><span class="params">()</span>&#123;</span><br><span class="line">     dosomethingBefore...</span><br><span class="line">     methodA();</span><br><span class="line">     dosomgthingAfter...</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodA</span><span class="params">()</span>&#123;</span><br><span class="line">     updateSomething();</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<p>dosomethingBefore执行失败，testMethod直接回滚</p>
-<p>updateSomething异常，回滚methodA，按照上述代码，全都回滚，如果被catch，就只回滚methodA</p>
-<p>dosomgthingAfter异常，methodA事务已经提交，但testMethod中的修改全部回滚</p>
-<p>PS：<br><a href="https://www.jianshu.com/p/3e9267b025b2">Propagation.REQUIRES_NEW</a></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>单例模式中的DCL</title>
     <url>/2023/04/27/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84DCL/</url>
     <content><![CDATA[<p>DCL 即 Double-Checked Locking</p>
@@ -55,5 +55,18 @@
       <tags>
         <tag>Design pattern</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>设计模式实现PDF导出</title>
+    <url>/2023/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0PDF%E5%AF%BC%E5%87%BA/</url>
+    <content><![CDATA[<p>一个导出PDF的需求，使用Builder设计模式，用于简化传递参数和执行多次画线操作的流程。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PdfBuilder</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> pageNumber;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> pageWidth;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> pageHeight;</span><br><span class="line">    <span class="keyword">private</span> List&lt;PdfLine&gt; lines = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfBuilder <span class="title function_">setPageNumber</span><span class="params">(<span class="type">int</span> pageNumber)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.pageNumber = pageNumber;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfBuilder <span class="title function_">setPageWidth</span><span class="params">(<span class="type">int</span> pageWidth)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.pageWidth = pageWidth;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfBuilder <span class="title function_">setPageHeight</span><span class="params">(<span class="type">int</span> pageHeight)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.pageHeight = pageHeight;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfBuilder <span class="title function_">addLine</span><span class="params">(<span class="type">int</span> startX, <span class="type">int</span> startY, <span class="type">int</span> endX, <span class="type">int</span> endY)</span> &#123;</span><br><span class="line">        lines.add(<span class="keyword">new</span> <span class="title class_">PdfLine</span>(startX, startY, endX, endY));</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfDocument <span class="title function_">build</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 创建 PDF 文档对象</span></span><br><span class="line">        <span class="type">PdfDocument</span> <span class="variable">pdf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PdfDocument</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 添加 PDF 页面</span></span><br><span class="line">        <span class="type">PdfPage</span> <span class="variable">page</span> <span class="operator">=</span> pdf.addNewPage(pageWidth, pageHeight, pageNumber);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在页面上画线</span></span><br><span class="line">        <span class="keyword">for</span> (PdfLine line : lines) &#123;</span><br><span class="line">            <span class="type">PdfCanvas</span> <span class="variable">canvas</span> <span class="operator">=</span> page.getCanvas();</span><br><span class="line">            canvas.beginText();</span><br><span class="line">            canvas.moveText(line.getStartX(), line.getStartY());</span><br><span class="line">            canvas.lineTo(line.getEndX(), line.getEndY());</span><br><span class="line">            canvas.stroke();</span><br><span class="line">            canvas.endText();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 返回 PDF 文档对象</span></span><br><span class="line">        <span class="keyword">return</span> pdf;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先定义一个 <code>PdfBuilder</code> 类用于组合 PDF 页面。通过调用 <code>setPageNumber()</code>、<code>setPageWidth()</code>、<code>setPageHeight()</code>、<code>addLine()</code> 方法来设置页面属性和画线操作，最后通过调用 <code>build()</code> 方法将页面属性和画线操作组合为一个 PDF 文档对象并返回。</p>
+<p>使用 Builder 设计模式可以让代码更加易读和易维护，同时避免了参数传递过程中出错的风险。</p>
+]]></content>
+      <categories>
+        <category>Design pattern</category>
+      </categories>
   </entry>
 </search>
