@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="DCL 即 Double-Checked Locking 12345678910111213141516public class Singleton &amp;#123; 	private volatile static Singleton uniqueInstance;     	private Singleton() &amp;#123;&amp;#125; 	public static Singleton getI">
+  <meta name="description" content="Go语言的goroutine是轻量级线程，可以在同一个程序的同时运行多个函数和方法。它不需要重新分配堆栈的显式调用，自动进行内存管理，所以在创建和销毁上开销较小。 使用goroutine可以实现并发编程，在Go语言中可以通过关键字”go”来启动一个goroutine，将函数或方法包装成一个新的goroutine运行。例如，go f(args)可以将函数f(args)包装成一个goroutine运行">
 <meta property="og:type" content="article">
-<meta property="og:title" content="单例模式中的DCL">
-<meta property="og:url" content="http://example.com/2023/04/27/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84DCL/index.html">
+<meta property="og:title" content="Go语言中的goroutine">
+<meta property="og:url" content="http://example.com/2023/05/04/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84goroutine/index.html">
 <meta property="og:site_name" content="0484cjagw">
-<meta property="og:description" content="DCL 即 Double-Checked Locking 12345678910111213141516public class Singleton &amp;#123; 	private volatile static Singleton uniqueInstance;     	private Singleton() &amp;#123;&amp;#125; 	public static Singleton getI">
+<meta property="og:description" content="Go语言的goroutine是轻量级线程，可以在同一个程序的同时运行多个函数和方法。它不需要重新分配堆栈的显式调用，自动进行内存管理，所以在创建和销毁上开销较小。 使用goroutine可以实现并发编程，在Go语言中可以通过关键字”go”来启动一个goroutine，将函数或方法包装成一个新的goroutine运行。例如，go f(args)可以将函数f(args)包装成一个goroutine运行">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-04-27T06:39:53.000Z">
-<meta property="article:modified_time" content="2023-04-27T06:41:09.834Z">
+<meta property="article:published_time" content="2023-05-04T07:12:31.000Z">
+<meta property="article:modified_time" content="2023-05-04T07:14:37.933Z">
 <meta property="article:author" content="NNZ">
-<meta property="article:tag" content="Design pattern">
+<meta property="article:tag" content="多线程">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/04/27/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84DCL/">
+<link rel="canonical" href="http://example.com/2023/05/04/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84goroutine/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>单例模式中的DCL | 0484cjagw</title>
+  <title>Go语言中的goroutine | 0484cjagw</title>
   
 
 
@@ -179,7 +179,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/27/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84DCL/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/04/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84goroutine/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -192,7 +192,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          单例模式中的DCL
+          Go语言中的goroutine
         </h1>
 
         <div class="post-meta">
@@ -203,7 +203,16 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2023-04-27 14:39:53 / Modified: 14:41:09" itemprop="dateCreated datePublished" datetime="2023-04-27T14:39:53+08:00">2023-04-27</time>
+              <time title="Created: 2023-05-04 15:12:31 / Modified: 15:14:37" itemprop="dateCreated datePublished" datetime="2023-05-04T15:12:31+08:00">2023-05-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
             </span>
 
           
@@ -217,14 +226,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>DCL 即 Double-Checked Locking</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123; </span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton uniqueInstance; </span><br><span class="line">    </span><br><span class="line">	<span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125; </span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123; </span><br><span class="line">		<span class="keyword">if</span> (uniqueInstance == <span class="literal">null</span>) &#123; </span><br><span class="line">			<span class="keyword">synchronized</span> (Singleton.class) &#123; </span><br><span class="line">			<span class="keyword">if</span> (uniqueInstance == <span class="literal">null</span>) &#123; </span><br><span class="line">				uniqueInstance = <span class="keyword">new</span> <span class="title class_">Singleton</span>(); </span><br><span class="line">				&#125; </span><br><span class="line">			&#125; </span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">return</span> uniqueInstance; </span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>volatile 关键字修饰实例变量能够确保，当有一个线程访问 uniqueInstance 变量时，其他线程立即失效，强制从主内存中重新读取 uniqueInstance 的值。</p>
-<p>使用DCL的原因：</p>
-<ol>
-<li>提高性能。使用双重检查锁可以在 getInstance() 第一次被调用时才实例化 Singleton 对象，即使多个线程同时调用 getInstance()，也只有第一次调用时才会进行同步锁定，其它线程会等待同步锁的释放。</li>
-<li>在多线程环境下，使用 synchronized 关键字同步 getInstance() 方法可以保证线程安全，但是每次获取实例时都会进行同步锁的获取，带来性能损耗。</li>
-</ol>
+        <p>Go语言的goroutine是轻量级线程，可以在同一个程序的同时运行多个函数和方法。它不需要重新分配堆栈的显式调用，自动进行内存管理，所以在创建和销毁上开销较小。</p>
+<p>使用goroutine可以实现并发编程，在Go语言中可以通过关键字”go”来启动一个goroutine，将函数或方法包装成一个新的goroutine运行。例如，go f(args)可以将函数f(args)包装成一个goroutine运行。</p>
+<p>与线程不同的是，goroutine由Go运行时调度，操作系统不参与goroutine的调度。因此，Go语言中的goroutine能够更高效地使用系统资源，支持大规模并发，可以轻松地创建数千个goroutine，而不会出现效率下降和内存溢出等问题。</p>
+<p>另外，通过通道(channel)同步不同goroutine之间的执行，可以避免多个goroutine同时访问共享资源时的数据竞争问题，实现安全的并发编程。</p>
+<p>下面是一个简单的Go语言程序，其中主函数启动了两个goroutine执行sum函数，并使用通道channel同步对结果的访问，以实现安全的并发编程。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(s []<span class="type">int</span>, c <span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    sum := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> s &#123;</span><br><span class="line">        sum += v</span><br><span class="line">    &#125;</span><br><span class="line">    c &lt;- sum <span class="comment">// 将sum发送到通道c中</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    s := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;</span><br><span class="line">    c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">    <span class="keyword">go</span> sum(s[:<span class="built_in">len</span>(s)/<span class="number">2</span>], c) <span class="comment">// 启动第一个goroutine计算前半部分和</span></span><br><span class="line">    <span class="keyword">go</span> sum(s[<span class="built_in">len</span>(s)/<span class="number">2</span>:], c) <span class="comment">// 启动第二个goroutine计算后半部分和</span></span><br><span class="line">    x, y := &lt;-c, &lt;-c        <span class="comment">// 从通道c中接收结果</span></span><br><span class="line">    fmt.Println(x, y, x+y)  <span class="comment">// 输出结果</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在该程序中，sum函数用于计算给定slice中元素的和，并将结果发送到通道c中。主函数main先创建一个slice s和一个整型通道c，然后启动两个goroutine同时计算s的前半部分和和后半部分和，并将结果发送到同一个通道c中进行汇总。<br>最后，主函数main从通道c中接收两个值，求和并输出结果。由于Go语言中的通道是线程安全的，因此可以实现多个goroutine之间的并发访问，而不会出现竞争问题。</p>
 
     </div>
 
@@ -234,7 +243,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Design-pattern/" rel="tag"># Design pattern</a>
+              <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag"># 多线程</a>
           </div>
 
         
@@ -243,13 +252,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/" rel="prev" title="Spring事务传播Propagation.REQUIRES_NEW">
-      <i class="fa fa-chevron-left"></i> Spring事务传播Propagation.REQUIRES_NEW
+    <a href="/2023/05/04/ConditionalOnMissingBean%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8/" rel="prev" title="ConditionalOnMissingBean注解的作用">
+      <i class="fa fa-chevron-left"></i> ConditionalOnMissingBean注解的作用
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0PDF%E5%AF%BC%E5%87%BA/" rel="next" title="设计模式实现PDF导出">
-      设计模式实现PDF导出 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
