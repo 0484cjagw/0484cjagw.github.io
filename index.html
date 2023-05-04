@@ -173,6 +173,79 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/04/ConditionalOnMissingBean%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="NNZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0484cjagw">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/04/ConditionalOnMissingBean%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8/" class="post-title-link" itemprop="url">ConditionalOnMissingBean注解的作用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-05-04 08:42:27 / Modified: 08:54:19" itemprop="dateCreated datePublished" datetime="2023-05-04T08:42:27+08:00">2023-05-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><code>@ConditionalOnMissingBean</code>是修饰Bean的注解，它的作用是在容器中不存在某个 Bean 的时候才注册当前 Bean。</p>
+<p>当一个类上添加了 <code>@ConditionalOnMissingBean</code> 注解后，在应用启动时，Spring 容器会检查当前上下文中是否已经存在该类型的 Bean。<br>如果不存在，就会将这个类声明的 Bean 加入到容器中；如果已经存在，则不会再注册该 Bean。</p>
+<p><code>@ConditionalOnMissingBean</code> 注解可以用来确保某个 Bean 只被注册一次，并避免由于重复注册导致的问题。同时，也可以用来控制 Bean 实例的创建和注册顺序，从而更好地管理应用的依赖关系。</p>
+<p><code>@ConditionalOnMissingBean</code>真正的意义在于其拓展性，当封装一个组件时，组件中有个默认的实现类，此时为这个默认实现类加上<code>@ConditionalOnMissingBean</code>注解。在外部使用时会用到自定义的Bean，此时出现多个相同类型的Bean，Spring会为我们选择不带<code>@ConditionalOnMissingBean</code>注解的Bean</p>
+<p>也就是说<code>@ConditionalOnMissingBean</code>是当没有个性化Bean时，提供一个默认的Bean</p>
+<p>PS：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lori/p/13490005.html">springboot~@ConditionalOnMissingBean注解的作用 - 张占岭 - 博客园</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0PDF%E5%AF%BC%E5%87%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -525,7 +598,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
