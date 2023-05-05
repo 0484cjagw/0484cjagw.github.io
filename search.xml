@@ -40,27 +40,6 @@
       </tags>
   </entry>
   <entry>
-    <title>浅试Lambda</title>
-    <url>/2023/04/27/Think-of-Lambda/</url>
-    <content><![CDATA[<p>当我们在Java中使用Lambda表达式时，它们经常用于在一个函数中传递行为，即将Lambda表达式作为参数传递给方法，然后在方法中执行。<br>Java8实战这本书中的log方法传递Lambda参数执行的例子，是通过Lambda表达式实现在打印日志的同时打印出该日志执行的时间。<br>首先，我们创建一个Logger类，它的构造函数接受一个布尔值参数debug，用于确定是否打印日志。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Logger</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">boolean</span> debug;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Logger</span><span class="params">(<span class="type">boolean</span> debug)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.debug = debug;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">log</span><span class="params">(String message)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (debug) &#123;</span><br><span class="line">      System.out.println(LocalDateTime.now() + <span class="string">&quot;: &quot;</span> + message);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后，我们编写一个doSomething方法，该方法接受一个字符串和一个函数式接口作为参数。在方法中，我们打印日志并执行传入的函数式接口。代码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">doSomething</span><span class="params">(String message, Runnable runnable)</span> &#123;</span><br><span class="line">    <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Logger</span>(<span class="literal">true</span>);</span><br><span class="line">    logger.log(<span class="string">&quot;Start &quot;</span> + message);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      runnable.run();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</span><br><span class="line">      logger.log(<span class="string">&quot;Error: &quot;</span> + e.getMessage());</span><br><span class="line">      <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">    logger.log(<span class="string">&quot;Finish &quot;</span> + message);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>doSomething方法先创建一个Logger对象来打印日志，然后在执行函数式接口之前打印“Start”日志，在执行后打印“Finish”日志。如果函数式接口抛出异常，则记录错误信息并将其继续传播。<br>最后，我们可以利用Lambda表达式调用doSomething方法，传递一个字符串和一个无参Lambda表达式，该Lambda表达式打印当前系统时间和一条消息。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    Demo.doSomething(<span class="string">&quot;Print currentTime&quot;</span>, () -&gt; System.out.println(LocalDateTime.now()));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>将打印当前系统时间的Lambda表达式作为第二个参数传递给了doSomething方法。<br>当run方法在doSomething方法中执行时，打印当前时间的Lambda表达式就会被执行，并打印出当前时间。</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spring事务传播Propagation.REQUIRES_NEW</title>
     <url>/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/</url>
     <content><![CDATA[<p>新建事务，如果当前存在事务，把当前事务挂起。</p>
@@ -80,6 +59,27 @@
       </tags>
   </entry>
   <entry>
+    <title>RocketMQ中的NameServer架构设计及启动流程</title>
+    <url>/2023/05/05/RocketMQ%E4%B8%AD%E7%9A%84NameServer%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%8F%8A%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<p>NameServer就是一个简单的<code>Topic</code>路由注册中心，可以进行服务发现和负载均衡（高可用的来源</p>
+<p>Broker启动的时候会向所有的<code>NameServer</code>注册，生产者在发送消息时会先从NameServer中获取Broker消息服务器的地址列表，根据负载均衡算法选取一台Broker消息服务器发送消息。</p>
+<p>消费者和生产者在使用RocketMQ时，首先需要和NameServer建立连接，然后NameServer会将当前所有可用的Broker地址列表返回给它们。</p>
+<h3 id="NameServer启动"><a href="#NameServer启动" class="headerlink" title="NameServer启动"></a>NameServer启动</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> NamesrvController <span class="title function_">start</span><span class="params">(<span class="keyword">final</span> NamesrvController controller)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">null</span> == controller) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;NamesrvController is null&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 初始化</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">initResult</span> <span class="operator">=</span> controller.initialize();</span><br><span class="line">    <span class="keyword">if</span> (!initResult) &#123;</span><br><span class="line">        controller.shutdown();</span><br><span class="line">        System.exit(-<span class="number">3</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭钩子，可以在关闭前进行一些操作</span></span><br><span class="line">    Runtime.getRuntime().addShutdownHook(<span class="keyword">new</span> <span class="title class_">ShutdownHookThread</span>(log, <span class="keyword">new</span> <span class="title class_">Callable</span>&lt;Void&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Void <span class="title function_">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">            <span class="comment">//这里就是钩子所做的操作，比如关闭线程池，关闭资源等等</span></span><br><span class="line">            controller.shutdown();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;));</span><br><span class="line">    <span class="comment">//启动</span></span><br><span class="line">    controller.start();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> controller;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>可以先看看initialize()的初始化操作，主要是开启Netty，并且移除不活跃的Broker</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">initialize</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 加载 kv 配置</span></span><br><span class="line">    <span class="built_in">this</span>.kvConfigManager.load();</span><br><span class="line">    <span class="comment">// 创建 netty 远程服务</span></span><br><span class="line">    <span class="built_in">this</span>.remotingServer = <span class="keyword">new</span> <span class="title class_">NettyRemotingServer</span>(<span class="built_in">this</span>.nettyServerConfig, <span class="built_in">this</span>.brokerHousekeepingService);</span><br><span class="line">    <span class="comment">// netty 远程服务线程</span></span><br><span class="line">    <span class="built_in">this</span>.remotingExecutor =</span><br><span class="line">        Executors.newFixedThreadPool(nettyServerConfig.getServerWorkerThreads(), <span class="keyword">new</span> <span class="title class_">ThreadFactoryImpl</span>(<span class="string">&quot;RemotingExecutorThread_&quot;</span>));</span><br><span class="line">    <span class="comment">// 注册，就是把 remotingExecutor 注册到 remotingServer</span></span><br><span class="line">    <span class="built_in">this</span>.registerProcessor();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//每隔10s扫描一次Broker，移除不活跃的broker，</span></span><br><span class="line">    <span class="built_in">this</span>.scheduledExecutorService.scheduleAtFixedRate(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            NamesrvController.<span class="built_in">this</span>.routeInfoManager.scanNotActiveBroker();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="number">5</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>.scheduledExecutorService.scheduleAtFixedRate(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;...&#125;, <span class="number">1</span>, <span class="number">10</span>, TimeUnit.MINUTES);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (TlsSystemConfig.tlsMode != TlsMode.DISABLED) &#123;...&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化NettyRemotingServer"><a href="#初始化NettyRemotingServer" class="headerlink" title="初始化NettyRemotingServer"></a>初始化NettyRemotingServer</h3><p>在initialize方法中有个NettyRemotingServer，其作用是NameServer注册中心对外开放的入口，用来接收Broker的注册消息。</p>
+<p>PS：<br><a href="https://juejin.cn/post/7194784992797392953#">RocketMQ源码2-NameServer架构设计及启动流程 - 掘金</a></p>
+]]></content>
+      <categories>
+        <category>RocketMQ</category>
+      </categories>
+      <tags>
+        <tag>RocketMQ</tag>
+        <tag>源码</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>单例模式中的DCL</title>
     <url>/2023/04/27/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84DCL/</url>
     <content><![CDATA[<p>DCL 即 Double-Checked Locking</p>
@@ -93,6 +93,27 @@
 ]]></content>
       <tags>
         <tag>Design pattern</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>浅试Lambda</title>
+    <url>/2023/04/27/Think-of-Lambda/</url>
+    <content><![CDATA[<p>当我们在Java中使用Lambda表达式时，它们经常用于在一个函数中传递行为，即将Lambda表达式作为参数传递给方法，然后在方法中执行。<br>Java8实战这本书中的log方法传递Lambda参数执行的例子，是通过Lambda表达式实现在打印日志的同时打印出该日志执行的时间。<br>首先，我们创建一个Logger类，它的构造函数接受一个布尔值参数debug，用于确定是否打印日志。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Logger</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">boolean</span> debug;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Logger</span><span class="params">(<span class="type">boolean</span> debug)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.debug = debug;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">log</span><span class="params">(String message)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (debug) &#123;</span><br><span class="line">      System.out.println(LocalDateTime.now() + <span class="string">&quot;: &quot;</span> + message);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们编写一个doSomething方法，该方法接受一个字符串和一个函数式接口作为参数。在方法中，我们打印日志并执行传入的函数式接口。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">doSomething</span><span class="params">(String message, Runnable runnable)</span> &#123;</span><br><span class="line">    <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Logger</span>(<span class="literal">true</span>);</span><br><span class="line">    logger.log(<span class="string">&quot;Start &quot;</span> + message);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      runnable.run();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</span><br><span class="line">      logger.log(<span class="string">&quot;Error: &quot;</span> + e.getMessage());</span><br><span class="line">      <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">    logger.log(<span class="string">&quot;Finish &quot;</span> + message);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>doSomething方法先创建一个Logger对象来打印日志，然后在执行函数式接口之前打印“Start”日志，在执行后打印“Finish”日志。如果函数式接口抛出异常，则记录错误信息并将其继续传播。<br>最后，我们可以利用Lambda表达式调用doSomething方法，传递一个字符串和一个无参Lambda表达式，该Lambda表达式打印当前系统时间和一条消息。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    Demo.doSomething(<span class="string">&quot;Print currentTime&quot;</span>, () -&gt; System.out.println(LocalDateTime.now()));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将打印当前系统时间的Lambda表达式作为第二个参数传递给了doSomething方法。<br>当run方法在doSomething方法中执行时，打印当前时间的Lambda表达式就会被执行，并打印出当前时间。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
