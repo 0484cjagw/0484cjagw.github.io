@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>ConditionalOnMissingBean注解的作用</title>
-    <url>/2023/05/04/ConditionalOnMissingBean%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8/</url>
-    <content><![CDATA[<p><code>@ConditionalOnMissingBean</code>是修饰Bean的注解，它的作用是在容器中不存在某个 Bean 的时候才注册当前 Bean。</p>
-<p>当一个类上添加了 <code>@ConditionalOnMissingBean</code> 注解后，在应用启动时，Spring 容器会检查当前上下文中是否已经存在该类型的 Bean。<br>如果不存在，就会将这个类声明的 Bean 加入到容器中；如果已经存在，则不会再注册该 Bean。</p>
-<p><code>@ConditionalOnMissingBean</code> 注解可以用来确保某个 Bean 只被注册一次，并避免由于重复注册导致的问题。同时，也可以用来控制 Bean 实例的创建和注册顺序，从而更好地管理应用的依赖关系。</p>
-<p><code>@ConditionalOnMissingBean</code>真正的意义在于其拓展性，当封装一个组件时，组件中有个默认的实现类，此时为这个默认实现类加上<code>@ConditionalOnMissingBean</code>注解。在外部使用时会用到自定义的Bean，此时出现多个相同类型的Bean，Spring会为我们选择不带<code>@ConditionalOnMissingBean</code>注解的Bean</p>
-<p>也就是说<code>@ConditionalOnMissingBean</code>是当没有个性化Bean时，提供一个默认的Bean</p>
-<p>PS：<br><a href="https://www.cnblogs.com/lori/p/13490005.html">springboot~@ConditionalOnMissingBean注解的作用 - 张占岭 - 博客园</a></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Go语言中的goroutine</title>
     <url>/2023/05/04/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84goroutine/</url>
     <content><![CDATA[<p>Go语言的goroutine是轻量级线程，可以在同一个程序的同时运行多个函数和方法。它不需要重新分配堆栈的显式调用，自动进行内存管理，所以在创建和销毁上开销较小。</p>
@@ -40,22 +23,56 @@
       </tags>
   </entry>
   <entry>
-    <title>Spring事务传播Propagation.REQUIRES_NEW</title>
-    <url>/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/</url>
-    <content><![CDATA[<p>新建事务，如果当前存在事务，把当前事务挂起。</p>
-<p>在特殊需求的时候需要在一个方法内部<code>提前提交一部分事务</code>或者是让内部的一段代码处于<code>单独的一个事务管理</code>的时候需要用到REQUIRES_NEW</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@transaction</span>    </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testMethod</span><span class="params">()</span>&#123;</span><br><span class="line">     dosomethingBefore...</span><br><span class="line">     methodA();</span><br><span class="line">     dosomgthingAfter...</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodA</span><span class="params">()</span>&#123;</span><br><span class="line">     updateSomething();</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<p>dosomethingBefore执行失败，testMethod直接回滚</p>
-<p>updateSomething异常，回滚methodA，按照上述代码，全都回滚，如果被catch，就只回滚methodA</p>
-<p>dosomgthingAfter异常，methodA事务已经提交，但testMethod中的修改全部回滚</p>
-<p>PS：<br><a href="https://www.jianshu.com/p/3e9267b025b2">Propagation.REQUIRES_NEW</a></p>
+    <title>Go实现basename方法</title>
+    <url>/2023/05/06/Go%E5%AE%9E%E7%8E%B0basename%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>basename函数灵感源于Unix shell的同名工具。在我们实现的版本中，basename(s)将看起来像是系统路径的前缀删除，同时将看似文件类型的后缀名部分删除：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">basename</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="built_in">len</span>(s) - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i-- &#123;</span><br><span class="line">		<span class="keyword">if</span> s[i] == <span class="string">&#x27;/&#x27;</span> &#123;</span><br><span class="line">			s = s[i+<span class="number">1</span>:]</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="built_in">len</span>(s) - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i-- &#123;</span><br><span class="line">		<span class="keyword">if</span> s[i] == <span class="string">&#x27;.&#x27;</span> &#123;</span><br><span class="line">			s = s[:i]</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(basename(<span class="string">&quot;a/b/c.go&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以使用strings.LastIndex库函数进行简化：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">basename</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">    slash := strings.LastIndex(s, <span class="string">&quot;/&quot;</span>) <span class="comment">// -1 if &quot;/&quot; not found</span></span><br><span class="line">    s = s[slash+<span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">if</span> dot := strings.LastIndex(s, <span class="string">&quot;.&quot;</span>); dot &gt;= <span class="number">0</span> &#123;</span><br><span class="line">        s = s[:dot]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ConditionalOnMissingBean注解的作用</title>
+    <url>/2023/05/04/ConditionalOnMissingBean%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8/</url>
+    <content><![CDATA[<p><code>@ConditionalOnMissingBean</code>是修饰Bean的注解，它的作用是在容器中不存在某个 Bean 的时候才注册当前 Bean。</p>
+<p>当一个类上添加了 <code>@ConditionalOnMissingBean</code> 注解后，在应用启动时，Spring 容器会检查当前上下文中是否已经存在该类型的 Bean。<br>如果不存在，就会将这个类声明的 Bean 加入到容器中；如果已经存在，则不会再注册该 Bean。</p>
+<p><code>@ConditionalOnMissingBean</code> 注解可以用来确保某个 Bean 只被注册一次，并避免由于重复注册导致的问题。同时，也可以用来控制 Bean 实例的创建和注册顺序，从而更好地管理应用的依赖关系。</p>
+<p><code>@ConditionalOnMissingBean</code>真正的意义在于其拓展性，当封装一个组件时，组件中有个默认的实现类，此时为这个默认实现类加上<code>@ConditionalOnMissingBean</code>注解。在外部使用时会用到自定义的Bean，此时出现多个相同类型的Bean，Spring会为我们选择不带<code>@ConditionalOnMissingBean</code>注解的Bean</p>
+<p>也就是说<code>@ConditionalOnMissingBean</code>是当没有个性化Bean时，提供一个默认的Bean</p>
+<p>PS：<br><a href="https://www.cnblogs.com/lori/p/13490005.html">springboot~@ConditionalOnMissingBean注解的作用 - 张占岭 - 博客园</a></p>
 ]]></content>
       <categories>
         <category>Spring</category>
       </categories>
       <tags>
         <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>浅试Lambda</title>
+    <url>/2023/04/27/Think-of-Lambda/</url>
+    <content><![CDATA[<p>当我们在Java中使用Lambda表达式时，它们经常用于在一个函数中传递行为，即将Lambda表达式作为参数传递给方法，然后在方法中执行。<br>Java8实战这本书中的log方法传递Lambda参数执行的例子，是通过Lambda表达式实现在打印日志的同时打印出该日志执行的时间。<br>首先，我们创建一个Logger类，它的构造函数接受一个布尔值参数debug，用于确定是否打印日志。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Logger</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">boolean</span> debug;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Logger</span><span class="params">(<span class="type">boolean</span> debug)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.debug = debug;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">log</span><span class="params">(String message)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (debug) &#123;</span><br><span class="line">      System.out.println(LocalDateTime.now() + <span class="string">&quot;: &quot;</span> + message);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们编写一个doSomething方法，该方法接受一个字符串和一个函数式接口作为参数。在方法中，我们打印日志并执行传入的函数式接口。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">doSomething</span><span class="params">(String message, Runnable runnable)</span> &#123;</span><br><span class="line">    <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Logger</span>(<span class="literal">true</span>);</span><br><span class="line">    logger.log(<span class="string">&quot;Start &quot;</span> + message);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      runnable.run();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</span><br><span class="line">      logger.log(<span class="string">&quot;Error: &quot;</span> + e.getMessage());</span><br><span class="line">      <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">    logger.log(<span class="string">&quot;Finish &quot;</span> + message);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>doSomething方法先创建一个Logger对象来打印日志，然后在执行函数式接口之前打印“Start”日志，在执行后打印“Finish”日志。如果函数式接口抛出异常，则记录错误信息并将其继续传播。<br>最后，我们可以利用Lambda表达式调用doSomething方法，传递一个字符串和一个无参Lambda表达式，该Lambda表达式打印当前系统时间和一条消息。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    Demo.doSomething(<span class="string">&quot;Print currentTime&quot;</span>, () -&gt; System.out.println(LocalDateTime.now()));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将打印当前系统时间的Lambda表达式作为第二个参数传递给了doSomething方法。<br>当run方法在doSomething方法中执行时，打印当前时间的Lambda表达式就会被执行，并打印出当前时间。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -66,7 +83,7 @@
 <p>消费者和生产者在使用RocketMQ时，首先需要和NameServer建立连接，然后NameServer会将当前所有可用的Broker地址列表返回给它们。</p>
 <h3 id="NameServer启动"><a href="#NameServer启动" class="headerlink" title="NameServer启动"></a>NameServer启动</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> NamesrvController <span class="title function_">start</span><span class="params">(<span class="keyword">final</span> NamesrvController controller)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">null</span> == controller) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;NamesrvController is null&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 初始化</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">initResult</span> <span class="operator">=</span> controller.initialize();</span><br><span class="line">    <span class="keyword">if</span> (!initResult) &#123;</span><br><span class="line">        controller.shutdown();</span><br><span class="line">        System.exit(-<span class="number">3</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭钩子，可以在关闭前进行一些操作</span></span><br><span class="line">    Runtime.getRuntime().addShutdownHook(<span class="keyword">new</span> <span class="title class_">ShutdownHookThread</span>(log, <span class="keyword">new</span> <span class="title class_">Callable</span>&lt;Void&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Void <span class="title function_">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">            <span class="comment">//这里就是钩子所做的操作，比如关闭线程池，关闭资源等等</span></span><br><span class="line">            controller.shutdown();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;));</span><br><span class="line">    <span class="comment">//启动</span></span><br><span class="line">    controller.start();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> controller;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>可以先看看initialize()的初始化操作，主要是开启Netty，并且移除不活跃的Broker</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">initialize</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 加载 kv 配置</span></span><br><span class="line">    <span class="built_in">this</span>.kvConfigManager.load();</span><br><span class="line">    <span class="comment">// 创建 netty 远程服务</span></span><br><span class="line">    <span class="built_in">this</span>.remotingServer = <span class="keyword">new</span> <span class="title class_">NettyRemotingServer</span>(<span class="built_in">this</span>.nettyServerConfig, <span class="built_in">this</span>.brokerHousekeepingService);</span><br><span class="line">    <span class="comment">// netty 远程服务线程</span></span><br><span class="line">    <span class="built_in">this</span>.remotingExecutor =</span><br><span class="line">        Executors.newFixedThreadPool(nettyServerConfig.getServerWorkerThreads(), <span class="keyword">new</span> <span class="title class_">ThreadFactoryImpl</span>(<span class="string">&quot;RemotingExecutorThread_&quot;</span>));</span><br><span class="line">    <span class="comment">// 注册，就是把 remotingExecutor 注册到 remotingServer</span></span><br><span class="line">    <span class="built_in">this</span>.registerProcessor();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//每隔10s扫描一次Broker，移除不活跃的broker，</span></span><br><span class="line">    <span class="built_in">this</span>.scheduledExecutorService.scheduleAtFixedRate(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            NamesrvController.<span class="built_in">this</span>.routeInfoManager.scanNotActiveBroker();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="number">5</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>.scheduledExecutorService.scheduleAtFixedRate(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;...&#125;, <span class="number">1</span>, <span class="number">10</span>, TimeUnit.MINUTES);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (TlsSystemConfig.tlsMode != TlsMode.DISABLED) &#123;...&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">initialize</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 加载 kv 配置</span></span><br><span class="line">    <span class="built_in">this</span>.kvConfigManager.load();</span><br><span class="line">    <span class="comment">// 创建 netty 远程服务</span></span><br><span class="line">    <span class="built_in">this</span>.remotingServer = <span class="keyword">new</span> <span class="title class_">NettyRemotingServer</span>(<span class="built_in">this</span>.nettyServerConfig, <span class="built_in">this</span>.brokerHousekeepingService);</span><br><span class="line">    <span class="comment">// netty 远程服务线程</span></span><br><span class="line">    <span class="built_in">this</span>.remotingExecutor =</span><br><span class="line">        Executors.newFixedThreadPool(nettyServerConfig.getServerWorkerThreads(), <span class="keyword">new</span> <span class="title class_">ThreadFactoryImpl</span>(<span class="string">&quot;RemotingExecutorThread_&quot;</span>));</span><br><span class="line">    <span class="comment">// 注册，就是把 remotingExecutor 注册到 remotingServer</span></span><br><span class="line">    <span class="built_in">this</span>.registerProcessor();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//每隔10s扫描一次Broker，移除不活跃的broker，</span></span><br><span class="line">    <span class="built_in">this</span>.scheduledExecutorService.scheduleAtFixedRate(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            NamesrvController.<span class="built_in">this</span>.routeInfoManager.scanNotActiveBroker();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="number">5</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>.scheduledExecutorService.scheduleAtFixedRate(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;...&#125;, <span class="number">1</span>, <span class="number">10</span>, TimeUnit.MINUTES);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (TlsSystemConfig.tlsMode != TlsMode.DISABLED) &#123;...&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">registerProcessor</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (namesrvConfig.isClusterTest()) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">this</span>.remotingServer.registerDefaultProcessor(<span class="keyword">new</span> <span class="title class_">ClusterTestRequestProcessor</span>(<span class="built_in">this</span>, namesrvConfig.getProductEnvName()),</span><br><span class="line">            <span class="built_in">this</span>.remotingExecutor);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">this</span>.remotingServer.registerDefaultProcessor(<span class="keyword">new</span> <span class="title class_">DefaultRequestProcessor</span>(<span class="built_in">this</span>), <span class="built_in">this</span>.remotingExecutor);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="初始化NettyRemotingServer"><a href="#初始化NettyRemotingServer" class="headerlink" title="初始化NettyRemotingServer"></a>初始化NettyRemotingServer</h3><p>在initialize方法中有个NettyRemotingServer，其作用是NameServer注册中心对外开放的入口，用来接收Broker的注册消息。</p>
 <p>PS：<br><a href="https://juejin.cn/post/7194784992797392953#">RocketMQ源码2-NameServer架构设计及启动流程 - 掘金</a></p>
@@ -96,27 +113,6 @@
       </tags>
   </entry>
   <entry>
-    <title>浅试Lambda</title>
-    <url>/2023/04/27/Think-of-Lambda/</url>
-    <content><![CDATA[<p>当我们在Java中使用Lambda表达式时，它们经常用于在一个函数中传递行为，即将Lambda表达式作为参数传递给方法，然后在方法中执行。<br>Java8实战这本书中的log方法传递Lambda参数执行的例子，是通过Lambda表达式实现在打印日志的同时打印出该日志执行的时间。<br>首先，我们创建一个Logger类，它的构造函数接受一个布尔值参数debug，用于确定是否打印日志。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Logger</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">boolean</span> debug;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Logger</span><span class="params">(<span class="type">boolean</span> debug)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.debug = debug;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">log</span><span class="params">(String message)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (debug) &#123;</span><br><span class="line">      System.out.println(LocalDateTime.now() + <span class="string">&quot;: &quot;</span> + message);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后，我们编写一个doSomething方法，该方法接受一个字符串和一个函数式接口作为参数。在方法中，我们打印日志并执行传入的函数式接口。代码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">doSomething</span><span class="params">(String message, Runnable runnable)</span> &#123;</span><br><span class="line">    <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Logger</span>(<span class="literal">true</span>);</span><br><span class="line">    logger.log(<span class="string">&quot;Start &quot;</span> + message);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      runnable.run();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</span><br><span class="line">      logger.log(<span class="string">&quot;Error: &quot;</span> + e.getMessage());</span><br><span class="line">      <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">    logger.log(<span class="string">&quot;Finish &quot;</span> + message);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>doSomething方法先创建一个Logger对象来打印日志，然后在执行函数式接口之前打印“Start”日志，在执行后打印“Finish”日志。如果函数式接口抛出异常，则记录错误信息并将其继续传播。<br>最后，我们可以利用Lambda表达式调用doSomething方法，传递一个字符串和一个无参Lambda表达式，该Lambda表达式打印当前系统时间和一条消息。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    Demo.doSomething(<span class="string">&quot;Print currentTime&quot;</span>, () -&gt; System.out.println(LocalDateTime.now()));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>将打印当前系统时间的Lambda表达式作为第二个参数传递给了doSomething方法。<br>当run方法在doSomething方法中执行时，打印当前时间的Lambda表达式就会被执行，并打印出当前时间。</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>设计模式实现PDF导出</title>
     <url>/2023/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0PDF%E5%AF%BC%E5%87%BA/</url>
     <content><![CDATA[<p>一个导出PDF的需求，使用Builder设计模式，用于简化传递参数和执行多次画线操作的流程。</p>
@@ -128,5 +124,24 @@
       <categories>
         <category>Design pattern</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Spring事务传播Propagation.REQUIRES_NEW</title>
+    <url>/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/</url>
+    <content><![CDATA[<p>新建事务，如果当前存在事务，把当前事务挂起。</p>
+<p>在特殊需求的时候需要在一个方法内部<code>提前提交一部分事务</code>或者是让内部的一段代码处于<code>单独的一个事务管理</code>的时候需要用到REQUIRES_NEW</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@transaction</span>    </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testMethod</span><span class="params">()</span>&#123;</span><br><span class="line">     dosomethingBefore...</span><br><span class="line">     methodA();</span><br><span class="line">     dosomgthingAfter...</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodA</span><span class="params">()</span>&#123;</span><br><span class="line">     updateSomething();</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>dosomethingBefore执行失败，testMethod直接回滚</p>
+<p>updateSomething异常，回滚methodA，按照上述代码，全都回滚，如果被catch，就只回滚methodA</p>
+<p>dosomgthingAfter异常，methodA事务已经提交，但testMethod中的修改全部回滚</p>
+<p>PS：<br><a href="https://www.jianshu.com/p/3e9267b025b2">Propagation.REQUIRES_NEW</a></p>
+]]></content>
+      <categories>
+        <category>Spring</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
   </entry>
 </search>
