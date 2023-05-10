@@ -20,33 +20,28 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="新建事务，如果当前存在事务，把当前事务挂起。 在特殊需求的时候需要在一个方法内部提前提交一部分事务或者是让内部的一段代码处于单独的一个事务管理的时候需要用到REQUIRES_NEW 1234567891011@transaction    public void testMethod()&amp;#123;     dosomethingBefore...     methodA();     dosom">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Spring事务传播Propagation.REQUIRES_NEW">
-<meta property="og:url" content="http://example.com/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="0484cjagw">
+<meta property="og:url" content="http://example.com/page/2/index.html">
 <meta property="og:site_name" content="0484cjagw">
-<meta property="og:description" content="新建事务，如果当前存在事务，把当前事务挂起。 在特殊需求的时候需要在一个方法内部提前提交一部分事务或者是让内部的一段代码处于单独的一个事务管理的时候需要用到REQUIRES_NEW 1234567891011@transaction    public void testMethod()&amp;#123;     dosomethingBefore...     methodA();     dosom">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-04-27T05:42:32.000Z">
-<meta property="article:modified_time" content="2023-04-27T06:09:06.277Z">
 <meta property="article:author" content="NNZ">
-<meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/">
+<link rel="canonical" href="http://example.com/page/2/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
-    isPost : true,
+    isHome : true,
+    isPost : false,
     lang   : 'en'
   };
 </script>
 
-  <title>Spring事务传播Propagation.REQUIRES_NEW | 0484cjagw</title>
+  <title>0484cjagw</title>
   
 
 
@@ -172,10 +167,9 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content index posts-expand">
             
-
-    
+      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -191,9 +185,10 @@
       <meta itemprop="name" content="0484cjagw">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Spring事务传播Propagation.REQUIRES_NEW
-        </h1>
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/" class="post-title-link" itemprop="url">Spring事务传播Propagation.REQUIRES_NEW</a>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -226,7 +221,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>新建事务，如果当前存在事务，把当前事务挂起。</p>
+          <p>新建事务，如果当前存在事务，把当前事务挂起。</p>
 <p>在特殊需求的时候需要在一个方法内部<code>提前提交一部分事务</code>或者是让内部的一段代码处于<code>单独的一个事务管理</code>的时候需要用到REQUIRES_NEW</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@transaction</span>    </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testMethod</span><span class="params">()</span>&#123;</span><br><span class="line">     dosomethingBefore...</span><br><span class="line">     methodA();</span><br><span class="line">     dosomgthingAfter...</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodA</span><span class="params">()</span>&#123;</span><br><span class="line">     updateSomething();</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
 
@@ -235,37 +230,102 @@
 <p>dosomgthingAfter异常，methodA事务已经提交，但testMethod中的修改全部回滚</p>
 <p>PS：<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3e9267b025b2">Propagation.REQUIRES_NEW</a></p>
 
+      
     </div>
 
     
     
     
-
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Spring/" rel="tag"># Spring</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2023/04/27/Think-of-Lambda/" rel="prev" title="浅试Lambda">
-      <i class="fa fa-chevron-left"></i> 浅试Lambda
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/04/27/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84DCL/" rel="next" title="单例模式中的DCL">
-      单例模式中的DCL <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
+        <div class="post-eof"></div>
       </footer>
-    
   </article>
   
   
   
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/27/Think-of-Lambda/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="NNZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0484cjagw">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/27/Think-of-Lambda/" class="post-title-link" itemprop="url">浅试Lambda</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-04-27 11:23:11 / Modified: 22:26:33" itemprop="dateCreated datePublished" datetime="2023-04-27T11:23:11+08:00">2023-04-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>当我们在Java中使用Lambda表达式时，它们经常用于在一个函数中传递行为，即将Lambda表达式作为参数传递给方法，然后在方法中执行。<br>Java8实战这本书中的log方法传递Lambda参数执行的例子，是通过Lambda表达式实现在打印日志的同时打印出该日志执行的时间。<br>首先，我们创建一个Logger类，它的构造函数接受一个布尔值参数debug，用于确定是否打印日志。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Logger</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">boolean</span> debug;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">Logger</span><span class="params">(<span class="type">boolean</span> debug)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.debug = debug;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">log</span><span class="params">(String message)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (debug) &#123;</span><br><span class="line">      System.out.println(LocalDateTime.now() + <span class="string">&quot;: &quot;</span> + message);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们编写一个doSomething方法，该方法接受一个字符串和一个函数式接口作为参数。在方法中，我们打印日志并执行传入的函数式接口。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">doSomething</span><span class="params">(String message, Runnable runnable)</span> &#123;</span><br><span class="line">    <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Logger</span>(<span class="literal">true</span>);</span><br><span class="line">    logger.log(<span class="string">&quot;Start &quot;</span> + message);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      runnable.run();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</span><br><span class="line">      logger.log(<span class="string">&quot;Error: &quot;</span> + e.getMessage());</span><br><span class="line">      <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">    logger.log(<span class="string">&quot;Finish &quot;</span> + message);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>doSomething方法先创建一个Logger对象来打印日志，然后在执行函数式接口之前打印“Start”日志，在执行后打印“Finish”日志。如果函数式接口抛出异常，则记录错误信息并将其继续传播。<br>最后，我们可以利用Lambda表达式调用doSomething方法，传递一个字符串和一个无参Lambda表达式，该Lambda表达式打印当前系统时间和一条消息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">    Demo.doSomething(<span class="string">&quot;Print currentTime&quot;</span>, () -&gt; System.out.println(LocalDateTime.now()));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将打印当前系统时间的Lambda表达式作为第二个参数传递给了doSomething方法。<br>当run方法在doSomething方法中执行时，打印当前时间的Lambda表达式就会被执行，并打印出当前时间。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
 
 
 

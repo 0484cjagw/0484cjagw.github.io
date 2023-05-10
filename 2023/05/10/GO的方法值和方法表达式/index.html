@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="@ConditionalOnMissingBean是修饰Bean的注解，它的作用是在容器中不存在某个 Bean 的时候才注册当前 Bean。 当一个类上添加了 @ConditionalOnMissingBean 注解后，在应用启动时，Spring 容器会检查当前上下文中是否已经存在该类型的 Bean。如果不存在，就会将这个类声明的 Bean 加入到容器中；如果已经存在，则不会再注册该 Bean。">
+  <meta name="description" content="代码定义了一个 Point 结构体，其中包含 X 和 Y 两个浮点数成员变量。Point 结构体还有两个方法 Add 和 Sub，分别返回该结构体和另一个 Point 结构体按照相应的加法或减法计算后的新 Point 结构体。 另外，该代码还定义了 Path 类型，作为 Point 的数组类型，并提供了一个名为 TranslateBy 的方法用于对 Path 中的所有 Point 进行位移操作。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ConditionalOnMissingBean注解的作用">
-<meta property="og:url" content="http://example.com/2023/05/04/ConditionalOnMissingBean%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8/index.html">
+<meta property="og:title" content="GO的方法值和方法表达式">
+<meta property="og:url" content="http://example.com/2023/05/10/GO%E7%9A%84%E6%96%B9%E6%B3%95%E5%80%BC%E5%92%8C%E6%96%B9%E6%B3%95%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.html">
 <meta property="og:site_name" content="0484cjagw">
-<meta property="og:description" content="@ConditionalOnMissingBean是修饰Bean的注解，它的作用是在容器中不存在某个 Bean 的时候才注册当前 Bean。 当一个类上添加了 @ConditionalOnMissingBean 注解后，在应用启动时，Spring 容器会检查当前上下文中是否已经存在该类型的 Bean。如果不存在，就会将这个类声明的 Bean 加入到容器中；如果已经存在，则不会再注册该 Bean。">
+<meta property="og:description" content="代码定义了一个 Point 结构体，其中包含 X 和 Y 两个浮点数成员变量。Point 结构体还有两个方法 Add 和 Sub，分别返回该结构体和另一个 Point 结构体按照相应的加法或减法计算后的新 Point 结构体。 另外，该代码还定义了 Path 类型，作为 Point 的数组类型，并提供了一个名为 TranslateBy 的方法用于对 Path 中的所有 Point 进行位移操作。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-05-04T00:42:27.000Z">
-<meta property="article:modified_time" content="2023-05-04T00:54:19.439Z">
+<meta property="article:published_time" content="2023-05-10T13:01:47.000Z">
+<meta property="article:modified_time" content="2023-05-10T13:02:55.631Z">
 <meta property="article:author" content="NNZ">
-<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/05/04/ConditionalOnMissingBean%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8/">
+<link rel="canonical" href="http://example.com/2023/05/10/GO%E7%9A%84%E6%96%B9%E6%B3%95%E5%80%BC%E5%92%8C%E6%96%B9%E6%B3%95%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>ConditionalOnMissingBean注解的作用 | 0484cjagw</title>
+  <title>GO的方法值和方法表达式 | 0484cjagw</title>
   
 
 
@@ -179,7 +179,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/04/ConditionalOnMissingBean%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/10/GO%E7%9A%84%E6%96%B9%E6%B3%95%E5%80%BC%E5%92%8C%E6%96%B9%E6%B3%95%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -192,7 +192,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          ConditionalOnMissingBean注解的作用
+          GO的方法值和方法表达式
         </h1>
 
         <div class="post-meta">
@@ -203,7 +203,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2023-05-04 08:42:27 / Modified: 08:54:19" itemprop="dateCreated datePublished" datetime="2023-05-04T08:42:27+08:00">2023-05-04</time>
+              <time title="Created: 2023-05-10 21:01:47 / Modified: 21:02:55" itemprop="dateCreated datePublished" datetime="2023-05-10T21:01:47+08:00">2023-05-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -211,7 +211,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
                 </span>
             </span>
 
@@ -226,13 +226,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><code>@ConditionalOnMissingBean</code>是修饰Bean的注解，它的作用是在容器中不存在某个 Bean 的时候才注册当前 Bean。</p>
-<p>当一个类上添加了 <code>@ConditionalOnMissingBean</code> 注解后，在应用启动时，Spring 容器会检查当前上下文中是否已经存在该类型的 Bean。<br>如果不存在，就会将这个类声明的 Bean 加入到容器中；如果已经存在，则不会再注册该 Bean。</p>
-<p><code>@ConditionalOnMissingBean</code> 注解可以用来确保某个 Bean 只被注册一次，并避免由于重复注册导致的问题。同时，也可以用来控制 Bean 实例的创建和注册顺序，从而更好地管理应用的依赖关系。</p>
-<p><code>@ConditionalOnMissingBean</code>真正的意义在于其拓展性，当封装一个组件时，组件中有个默认的实现类，此时为这个默认实现类加上<code>@ConditionalOnMissingBean</code>注解。在外部使用时会用到自定义的Bean，此时出现多个相同类型的Bean，Spring会为我们选择不带<code>@ConditionalOnMissingBean</code>注解的Bean</p>
-<p>也就是说<code>@ConditionalOnMissingBean</code>是当没有个性化Bean时，提供一个默认的Bean</p>
-<p>PS：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lori/p/13490005.html">springboot~@ConditionalOnMissingBean注解的作用 - 张占岭 - 博客园</a></p>
-
+        <p>代码定义了一个 Point 结构体，其中包含 X 和 Y 两个浮点数成员变量。Point 结构体还有两个方法 Add 和 Sub，分别返回该结构体和另一个 Point 结构体按照相应的加法或减法计算后的新 Point 结构体。</p>
+<p>另外，该代码还定义了 Path 类型，作为 Point 的数组类型，并提供了一个名为 TranslateBy 的方法用于对 Path 中的所有 Point 进行位移操作。</p>
+<p>TranslateBy 方法接收一个名为 offset 的 Point 参数，以及一个布尔类型的 add 参数。<br>如果 add 为 true，则使用 Add 方法将 offset 加到每个 Point 上；否则，使用 Sub 方法将 offset 减去每个 Point。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">type</span> Point <span class="keyword">struct</span>&#123; X, Y <span class="type">float64</span> &#125;  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p Point)</span></span> Add(q Point) Point &#123; <span class="keyword">return</span> Point&#123;p.X + q.X, p.Y + q.Y&#125; &#125;  </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p Point)</span></span> Sub(q Point) Point &#123; <span class="keyword">return</span> Point&#123;p.X - q.X, p.Y - q.Y&#125; &#125;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">type</span> Path []Point  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;  </span><br><span class="line">   path := Path&#123;&#123;<span class="number">1.0</span>, <span class="number">2.0</span>&#125;, &#123;<span class="number">3.0</span>, <span class="number">4.0</span>&#125;, &#123;<span class="number">5.0</span>, <span class="number">6.0</span>&#125;&#125;  </span><br><span class="line">   offset := Point&#123;<span class="number">10.0</span>, <span class="number">20.0</span>&#125;  </span><br><span class="line">   path.TranslateBy(offset, <span class="literal">true</span>)  </span><br><span class="line">   fmt.Println(path) <span class="comment">// 输出：[&#123;11 22&#125; &#123;13 24&#125; &#123;15 26&#125;]  </span></span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(path Path)</span></span> TranslateBy(offset Point, add <span class="type">bool</span>) &#123;  </span><br><span class="line">   <span class="keyword">var</span> op <span class="function"><span class="keyword">func</span><span class="params">(p, q Point)</span></span> Point  </span><br><span class="line">   <span class="keyword">if</span> add &#123;  </span><br><span class="line">      op = Point.Add  </span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">      op = Point.Sub  </span><br><span class="line">   &#125;  </span><br><span class="line">   <span class="keyword">for</span> i := <span class="keyword">range</span> path &#123;  </span><br><span class="line">      <span class="comment">// Call either path[i].Add(offset) or path[i].Sub(offset).  </span></span><br><span class="line">      path[i] = op(path[i], offset)  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -241,7 +238,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Spring/" rel="tag"># Spring</a>
+              <a href="/tags/Go/" rel="tag"># Go</a>
           </div>
 
         
@@ -250,12 +247,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0PDF%E5%AF%BC%E5%87%BA/" rel="prev" title="设计模式实现PDF导出">
-      <i class="fa fa-chevron-left"></i> 设计模式实现PDF导出
+    <a href="/2023/05/08/lc146-LRU%E7%BC%93%E5%AD%98/" rel="prev" title="lc146.LRU缓存">
+      <i class="fa fa-chevron-left"></i> lc146.LRU缓存
     </a></div>
       <div class="post-nav-item">
-    <a href="/2023/05/04/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84goroutine/" rel="next" title="Go语言中的goroutine">
-      Go语言中的goroutine <i class="fa fa-chevron-right"></i>
+    <a href="/2023/05/10/Transactional%E6%B3%A8%E8%A7%A3%E9%BB%98%E8%AE%A4%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" rel="next" title="Transactional注解默认异常处理">
+      Transactional注解默认异常处理 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
