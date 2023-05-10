@@ -173,6 +173,77 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/10/GO%E5%AE%9E%E7%8E%B0Builder%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="NNZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0484cjagw">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/10/GO%E5%AE%9E%E7%8E%B0Builder%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">GO实现Builder设计模式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-05-10 22:12:48 / Modified: 22:17:40" itemprop="dateCreated datePublished" datetime="2023-05-10T22:12:48+08:00">2023-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/Design-pattern/" itemprop="url" rel="index"><span itemprop="name">Design pattern</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">	Username <span class="type">string</span></span><br><span class="line">	Password <span class="type">string</span></span><br><span class="line">	Age      <span class="type">int</span></span><br><span class="line">	Email    <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> UserBuilder <span class="keyword">struct</span> &#123;</span><br><span class="line">	user User</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b UserBuilder)</span></span> SetUsername(username <span class="type">string</span>) UserBuilder &#123;</span><br><span class="line">	b.user.Username = username</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b UserBuilder)</span></span> SetPassword(password <span class="type">string</span>) UserBuilder &#123;</span><br><span class="line">	b.user.Password = password</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b UserBuilder)</span></span> SetAge(age <span class="type">int</span>) UserBuilder &#123;</span><br><span class="line">	b.user.Age = age</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b UserBuilder)</span></span> SetEmail(email <span class="type">string</span>) UserBuilder &#123;</span><br><span class="line">	b.user.Email = email</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b UserBuilder)</span></span> Build() User &#123;</span><br><span class="line">	<span class="keyword">return</span> b.user</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// Usage:</span></span><br><span class="line">	user := UserBuilder&#123;&#125;.</span><br><span class="line">		SetUsername(<span class="string">&quot;john&quot;</span>).</span><br><span class="line">		SetPassword(<span class="string">&quot;password&quot;</span>).</span><br><span class="line">		SetAge(<span class="number">30</span>).</span><br><span class="line">		SetEmail(<span class="string">&quot;john@example.com&quot;</span>).</span><br><span class="line">		Build()</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, user)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/10/Transactional%E6%B3%A8%E8%A7%A3%E9%BB%98%E8%AE%A4%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -198,7 +269,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2023-05-10 21:22:34 / Modified: 21:23:10" itemprop="dateCreated datePublished" datetime="2023-05-10T21:22:34+08:00">2023-05-10</time>
+              <time title="Created: 2023-05-10 21:22:34 / Modified: 21:27:02" itemprop="dateCreated datePublished" datetime="2023-05-10T21:22:34+08:00">2023-05-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -223,7 +294,7 @@
       
           <p>在不指定异常配置的时候，<code>@Transactional</code>注解默认在RuntimeException发生时回滚，如果是非运行时异常则不会进行回滚（比如SQLException、IOException等等）。</p>
 <p>因此一般指定<code>@Transactional(rollbackFor = Exception.class)</code></p>
-<h3 id="Transactional的rollbackFor为什么是RuntimeException"><a href="#Transactional的rollbackFor为什么是RuntimeException" class="headerlink" title="@Transactional的rollbackFor为什么是RuntimeException"></a>@Transactional的rollbackFor为什么是RuntimeException</h3><p>@Transactional是Spring的AOP实现的典型，在<code>TransactionAspectSupport#completeTransactionAfterThrowing</code>中可以看到rollback方法，即执行回滚操作。<br><img src="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230509154635.png" alt="image.png"><br>这里可以看到回滚的类型指定了运行时异常<br><img src="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230510212126.png" alt="image.png"></p>
+<h3 id="Transactional的rollbackFor为什么是RuntimeException"><a href="#Transactional的rollbackFor为什么是RuntimeException" class="headerlink" title="@Transactional的rollbackFor为什么是RuntimeException"></a>@Transactional的rollbackFor为什么是RuntimeException</h3><p>@Transactional是Spring的AOP实现的典型<br>在<code>TransactionAspectSupport#completeTransactionAfterThrowing</code>中可以看到rollback方法，即执行回滚操作。<br><img src="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230509154635.png" alt="image.png"><br>这里可以看到回滚的类型指定了运行时异常<br><img src="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230510212126.png" alt="image.png"></p>
 
       
     </div>
@@ -822,87 +893,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/27/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84DCL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="NNZ">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0484cjagw">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/04/27/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84DCL/" class="post-title-link" itemprop="url">单例模式中的DCL</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-04-27 14:39:53" itemprop="dateCreated datePublished" datetime="2023-04-27T14:39:53+08:00">2023-04-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-05-06 16:58:47" itemprop="dateModified" datetime="2023-05-06T16:58:47+08:00">2023-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-pattern/" itemprop="url" rel="index"><span itemprop="name">Design pattern</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>DCL 即 Double-Checked Locking</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123; </span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton uniqueInstance; </span><br><span class="line">    </span><br><span class="line">	<span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;&#125; </span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123; </span><br><span class="line">		<span class="keyword">if</span> (uniqueInstance == <span class="literal">null</span>) &#123; </span><br><span class="line">			<span class="keyword">synchronized</span> (Singleton.class) &#123; </span><br><span class="line">			<span class="keyword">if</span> (uniqueInstance == <span class="literal">null</span>) &#123; </span><br><span class="line">				uniqueInstance = <span class="keyword">new</span> <span class="title class_">Singleton</span>(); </span><br><span class="line">				&#125; </span><br><span class="line">			&#125; </span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">return</span> uniqueInstance; </span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>volatile 关键字修饰实例变量能够确保，当有一个线程访问 uniqueInstance 变量时，其他线程立即失效，强制从主内存中重新读取 uniqueInstance 的值。</p>
-<p>使用DCL的原因：</p>
-<ol>
-<li>提高性能。使用双重检查锁可以在 getInstance() 第一次被调用时才实例化 Singleton 对象，即使多个线程同时调用 getInstance()，也只有第一次调用时才会进行同步锁定，其它线程会等待同步锁的释放。</li>
-<li>在多线程环境下，使用 synchronized 关键字同步 getInstance() 方法可以保证线程安全，但是每次获取实例时都会进行同步锁的获取，带来性能损耗。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -972,13 +962,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">

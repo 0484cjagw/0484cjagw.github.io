@@ -18,6 +18,19 @@
       </tags>
   </entry>
   <entry>
+    <title>GO实现Builder设计模式</title>
+    <url>/2023/05/10/GO%E5%AE%9E%E7%8E%B0Builder%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">	Username <span class="type">string</span></span><br><span class="line">	Password <span class="type">string</span></span><br><span class="line">	Age      <span class="type">int</span></span><br><span class="line">	Email    <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> UserBuilder <span class="keyword">struct</span> &#123;</span><br><span class="line">	user User</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b UserBuilder)</span></span> SetUsername(username <span class="type">string</span>) UserBuilder &#123;</span><br><span class="line">	b.user.Username = username</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b UserBuilder)</span></span> SetPassword(password <span class="type">string</span>) UserBuilder &#123;</span><br><span class="line">	b.user.Password = password</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b UserBuilder)</span></span> SetAge(age <span class="type">int</span>) UserBuilder &#123;</span><br><span class="line">	b.user.Age = age</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b UserBuilder)</span></span> SetEmail(email <span class="type">string</span>) UserBuilder &#123;</span><br><span class="line">	b.user.Email = email</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b UserBuilder)</span></span> Build() User &#123;</span><br><span class="line">	<span class="keyword">return</span> b.user</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// Usage:</span></span><br><span class="line">	user := UserBuilder&#123;&#125;.</span><br><span class="line">		SetUsername(<span class="string">&quot;john&quot;</span>).</span><br><span class="line">		SetPassword(<span class="string">&quot;password&quot;</span>).</span><br><span class="line">		SetAge(<span class="number">30</span>).</span><br><span class="line">		SetEmail(<span class="string">&quot;john@example.com&quot;</span>).</span><br><span class="line">		Build()</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, user)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Go</category>
+        <category>Design pattern</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+        <tag>Design pattern</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>GO的方法值和方法表达式</title>
     <url>/2023/05/10/GO%E7%9A%84%E6%96%B9%E6%B3%95%E5%80%BC%E5%92%8C%E6%96%B9%E6%B3%95%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<p>代码定义了一个 Point 结构体，其中包含 X 和 Y 两个浮点数成员变量。Point 结构体还有两个方法 Add 和 Sub，分别返回该结构体和另一个 Point 结构体按照相应的加法或减法计算后的新 Point 结构体。</p>
@@ -29,6 +42,43 @@
       </categories>
       <tags>
         <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Go实现basename方法</title>
+    <url>/2023/05/06/Go%E5%AE%9E%E7%8E%B0basename%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>basename函数灵感源于Unix shell的同名工具。在我们实现的版本中，basename(s)将看起来像是系统路径的前缀删除，同时将看似文件类型的后缀名部分删除：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">basename</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="built_in">len</span>(s) - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i-- &#123;</span><br><span class="line">		<span class="keyword">if</span> s[i] == <span class="string">&#x27;/&#x27;</span> &#123;</span><br><span class="line">			s = s[i+<span class="number">1</span>:]</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="built_in">len</span>(s) - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i-- &#123;</span><br><span class="line">		<span class="keyword">if</span> s[i] == <span class="string">&#x27;.&#x27;</span> &#123;</span><br><span class="line">			s = s[:i]</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(basename(<span class="string">&quot;a/b/c.go&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以使用strings.LastIndex库函数进行简化：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">basename</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">    slash := strings.LastIndex(s, <span class="string">&quot;/&quot;</span>) <span class="comment">// -1 if &quot;/&quot; not found</span></span><br><span class="line">    s = s[slash+<span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">if</span> dot := strings.LastIndex(s, <span class="string">&quot;.&quot;</span>); dot &gt;= <span class="number">0</span> &#123;</span><br><span class="line">        s = s[:dot]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Go语言中的goroutine</title>
+    <url>/2023/05/04/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84goroutine/</url>
+    <content><![CDATA[<p>Go语言的goroutine是轻量级线程，可以在同一个程序的同时运行多个函数和方法。它不需要重新分配堆栈的显式调用，自动进行内存管理，所以在创建和销毁上开销较小。</p>
+<p>使用goroutine可以实现并发编程，在Go语言中可以通过关键字”go”来启动一个goroutine，将函数或方法包装成一个新的goroutine运行。例如，go f(args)可以将函数f(args)包装成一个goroutine运行。<br>(To invoke this function in a goroutine, use go f(s). This new goroutine will execute concurrently with the calling one.)</p>
+<p>与线程不同的是，goroutine由Go运行时调度，操作系统不参与goroutine的调度。因此，Go语言中的goroutine能够更高效地使用系统资源，支持大规模并发，可以轻松地创建数千个goroutine，而不会出现效率下降和内存溢出等问题。</p>
+<p>另外，通过通道(channel)同步不同goroutine之间的执行，可以避免多个goroutine同时访问共享资源时的数据竞争问题，实现安全的并发编程。</p>
+<p>下面是一个简单的Go语言程序，其中主函数启动了两个goroutine执行sum函数，并使用通道channel同步对结果的访问，以实现安全的并发编程。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(s []<span class="type">int</span>, c <span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    sum := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> s &#123;</span><br><span class="line">        sum += v</span><br><span class="line">    &#125;</span><br><span class="line">    c &lt;- sum <span class="comment">// 将sum发送到通道c中</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    s := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;</span><br><span class="line">    c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">    <span class="keyword">go</span> sum(s[:<span class="built_in">len</span>(s)/<span class="number">2</span>], c) <span class="comment">// 启动第一个goroutine计算前半部分和</span></span><br><span class="line">    <span class="keyword">go</span> sum(s[<span class="built_in">len</span>(s)/<span class="number">2</span>:], c) <span class="comment">// 启动第二个goroutine计算后半部分和</span></span><br><span class="line">    x, y := &lt;-c, &lt;-c        <span class="comment">// 从通道c中接收结果</span></span><br><span class="line">    fmt.Println(x, y, x+y)  <span class="comment">// 输出结果</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在该程序中，sum函数用于计算给定slice中元素的和，并将结果发送到通道c中。主函数main先创建一个slice s和一个整型通道c，然后启动两个goroutine同时计算s的前半部分和和后半部分和，并将结果发送到同一个通道c中进行汇总。<br>最后，主函数main从通道c中接收两个值，求和并输出结果。由于Go语言中的通道是线程安全的，因此可以实现多个goroutine之间的并发访问，而不会出现竞争问题。</p>
+<p>再一个小例子</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(from <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123;</span><br><span class="line">        fmt.Println(from, <span class="string">&quot;:&quot;</span>, i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">    f(<span class="string">&quot;direct&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">go</span> f(<span class="string">&quot;goroutine&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(msg <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">        fmt.Println(msg)</span><br><span class="line">    &#125;(<span class="string">&quot;going&quot;</span>)</span><br><span class="line"></span><br><span class="line">    time.Sleep(time.Second)</span><br><span class="line">    fmt.Println(<span class="string">&quot;done&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Go</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+        <tag>多线程</tag>
+        <tag>协程</tag>
       </tags>
   </entry>
   <entry>
@@ -53,18 +103,22 @@
       </tags>
   </entry>
   <entry>
-    <title>Go实现basename方法</title>
-    <url>/2023/05/06/Go%E5%AE%9E%E7%8E%B0basename%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>basename函数灵感源于Unix shell的同名工具。在我们实现的版本中，basename(s)将看起来像是系统路径的前缀删除，同时将看似文件类型的后缀名部分删除：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">basename</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="built_in">len</span>(s) - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i-- &#123;</span><br><span class="line">		<span class="keyword">if</span> s[i] == <span class="string">&#x27;/&#x27;</span> &#123;</span><br><span class="line">			s = s[i+<span class="number">1</span>:]</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="built_in">len</span>(s) - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i-- &#123;</span><br><span class="line">		<span class="keyword">if</span> s[i] == <span class="string">&#x27;.&#x27;</span> &#123;</span><br><span class="line">			s = s[:i]</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(basename(<span class="string">&quot;a/b/c.go&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>也可以使用strings.LastIndex库函数进行简化：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">basename</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">    slash := strings.LastIndex(s, <span class="string">&quot;/&quot;</span>) <span class="comment">// -1 if &quot;/&quot; not found</span></span><br><span class="line">    s = s[slash+<span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">if</span> dot := strings.LastIndex(s, <span class="string">&quot;.&quot;</span>); dot &gt;= <span class="number">0</span> &#123;</span><br><span class="line">        s = s[:dot]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    <title>Spring事务传播Propagation.REQUIRES_NEW</title>
+    <url>/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/</url>
+    <content><![CDATA[<p>新建事务，如果当前存在事务，把当前事务挂起。</p>
+<p>在特殊需求的时候需要在一个方法内部<code>提前提交一部分事务</code>或者是让内部的一段代码处于<code>单独的一个事务管理</code>的时候需要用到REQUIRES_NEW</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@transaction</span>    </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testMethod</span><span class="params">()</span>&#123;</span><br><span class="line">     dosomethingBefore...</span><br><span class="line">     methodA();</span><br><span class="line">     dosomgthingAfter...</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodA</span><span class="params">()</span>&#123;</span><br><span class="line">     updateSomething();</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>dosomethingBefore执行失败，testMethod直接回滚</p>
+<p>updateSomething异常，回滚methodA，按照上述代码，全都回滚，如果被catch，就只回滚methodA</p>
+<p>dosomgthingAfter异常，methodA事务已经提交，但testMethod中的修改全部回滚</p>
+<p>PS：<br><a href="https://www.jianshu.com/p/3e9267b025b2">Propagation.REQUIRES_NEW</a></p>
 ]]></content>
       <categories>
-        <category>Go</category>
+        <category>Spring</category>
       </categories>
       <tags>
-        <tag>Go</tag>
+        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
@@ -89,30 +143,11 @@
       </tags>
   </entry>
   <entry>
-    <title>Spring事务传播Propagation.REQUIRES_NEW</title>
-    <url>/2023/04/27/Spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%ADPropagation-REQUIRES-NEW/</url>
-    <content><![CDATA[<p>新建事务，如果当前存在事务，把当前事务挂起。</p>
-<p>在特殊需求的时候需要在一个方法内部<code>提前提交一部分事务</code>或者是让内部的一段代码处于<code>单独的一个事务管理</code>的时候需要用到REQUIRES_NEW</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@transaction</span>    </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testMethod</span><span class="params">()</span>&#123;</span><br><span class="line">     dosomethingBefore...</span><br><span class="line">     methodA();</span><br><span class="line">     dosomgthingAfter...</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">methodA</span><span class="params">()</span>&#123;</span><br><span class="line">     updateSomething();</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<p>dosomethingBefore执行失败，testMethod直接回滚</p>
-<p>updateSomething异常，回滚methodA，按照上述代码，全都回滚，如果被catch，就只回滚methodA</p>
-<p>dosomgthingAfter异常，methodA事务已经提交，但testMethod中的修改全部回滚</p>
-<p>PS：<br><a href="https://www.jianshu.com/p/3e9267b025b2">Propagation.REQUIRES_NEW</a></p>
-]]></content>
-      <categories>
-        <category>Spring</category>
-      </categories>
-      <tags>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Transactional注解默认异常处理</title>
     <url>/2023/05/10/Transactional%E6%B3%A8%E8%A7%A3%E9%BB%98%E8%AE%A4%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/</url>
     <content><![CDATA[<p>在不指定异常配置的时候，<code>@Transactional</code>注解默认在RuntimeException发生时回滚，如果是非运行时异常则不会进行回滚（比如SQLException、IOException等等）。</p>
 <p>因此一般指定<code>@Transactional(rollbackFor = Exception.class)</code></p>
-<h3 id="Transactional的rollbackFor为什么是RuntimeException"><a href="#Transactional的rollbackFor为什么是RuntimeException" class="headerlink" title="@Transactional的rollbackFor为什么是RuntimeException"></a>@Transactional的rollbackFor为什么是RuntimeException</h3><p>@Transactional是Spring的AOP实现的典型，在<code>TransactionAspectSupport#completeTransactionAfterThrowing</code>中可以看到rollback方法，即执行回滚操作。<br><img src="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230509154635.png" alt="image.png"><br>这里可以看到回滚的类型指定了运行时异常<br><img src="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230510212126.png" alt="image.png"></p>
+<h3 id="Transactional的rollbackFor为什么是RuntimeException"><a href="#Transactional的rollbackFor为什么是RuntimeException" class="headerlink" title="@Transactional的rollbackFor为什么是RuntimeException"></a>@Transactional的rollbackFor为什么是RuntimeException</h3><p>@Transactional是Spring的AOP实现的典型<br>在<code>TransactionAspectSupport#completeTransactionAfterThrowing</code>中可以看到rollback方法，即执行回滚操作。<br><img src="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230509154635.png" alt="image.png"><br>这里可以看到回滚的类型指定了运行时异常<br><img src="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230510212126.png" alt="image.png"></p>
 ]]></content>
       <categories>
         <category>Spring</category>
@@ -133,6 +168,21 @@
       <tags>
         <tag>leetcode</tag>
         <tag>Algorithm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>newCode_字符串操作</title>
+    <url>/2023/05/06/newCode-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<p>给定一个只包含小写字母字符串，每次可以选择两个相同的字符删除，并在字符串结尾新增任意一个小写字母。<br>请问最少多少次操作后，所有的字母都不相同？</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 返回满足题意的最小操作数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> str string字符串 给定字符串</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> int整型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minOperations</span> <span class="params">(String str)</span> &#123;</span><br><span class="line">        <span class="comment">// write code here</span></span><br><span class="line">        <span class="type">int</span>[] map = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">26</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> str.length();</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">char</span> c : str.toCharArray())&#123;</span><br><span class="line">            <span class="keyword">if</span>(map[c - <span class="string">&#x27;a&#x27;</span>] == <span class="number">1</span>)&#123;</span><br><span class="line">                res++;</span><br><span class="line">                map[c - <span class="string">&#x27;a&#x27;</span>] = <span class="number">0</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                map[c - <span class="string">&#x27;a&#x27;</span>] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n - res &gt; <span class="number">26</span> ? n - <span class="number">26</span> : res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>PS:<br><a href="https://www.nowcoder.com/questionTerminal/4b416a55d9a84da597c36baf54afa469">字符串操作</a></p>
+]]></content>
+      <categories>
+        <category>Algorithm</category>
+      </categories>
+      <tags>
+        <tag>字符串</tag>
       </tags>
   </entry>
   <entry>
@@ -169,43 +219,6 @@
       <tags>
         <tag>Design pattern</tag>
         <tag>Builder</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>newCode_字符串操作</title>
-    <url>/2023/05/06/newCode-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<p>给定一个只包含小写字母字符串，每次可以选择两个相同的字符删除，并在字符串结尾新增任意一个小写字母。<br>请问最少多少次操作后，所有的字母都不相同？</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 返回满足题意的最小操作数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> str string字符串 给定字符串</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> int整型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minOperations</span> <span class="params">(String str)</span> &#123;</span><br><span class="line">        <span class="comment">// write code here</span></span><br><span class="line">        <span class="type">int</span>[] map = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">26</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> str.length();</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">char</span> c : str.toCharArray())&#123;</span><br><span class="line">            <span class="keyword">if</span>(map[c - <span class="string">&#x27;a&#x27;</span>] == <span class="number">1</span>)&#123;</span><br><span class="line">                res++;</span><br><span class="line">                map[c - <span class="string">&#x27;a&#x27;</span>] = <span class="number">0</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                map[c - <span class="string">&#x27;a&#x27;</span>] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n - res &gt; <span class="number">26</span> ? n - <span class="number">26</span> : res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>PS:<br><a href="https://www.nowcoder.com/questionTerminal/4b416a55d9a84da597c36baf54afa469">字符串操作</a></p>
-]]></content>
-      <categories>
-        <category>Algorithm</category>
-      </categories>
-      <tags>
-        <tag>字符串</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Go语言中的goroutine</title>
-    <url>/2023/05/04/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84goroutine/</url>
-    <content><![CDATA[<p>Go语言的goroutine是轻量级线程，可以在同一个程序的同时运行多个函数和方法。它不需要重新分配堆栈的显式调用，自动进行内存管理，所以在创建和销毁上开销较小。</p>
-<p>使用goroutine可以实现并发编程，在Go语言中可以通过关键字”go”来启动一个goroutine，将函数或方法包装成一个新的goroutine运行。例如，go f(args)可以将函数f(args)包装成一个goroutine运行。<br>(To invoke this function in a goroutine, use go f(s). This new goroutine will execute concurrently with the calling one.)</p>
-<p>与线程不同的是，goroutine由Go运行时调度，操作系统不参与goroutine的调度。因此，Go语言中的goroutine能够更高效地使用系统资源，支持大规模并发，可以轻松地创建数千个goroutine，而不会出现效率下降和内存溢出等问题。</p>
-<p>另外，通过通道(channel)同步不同goroutine之间的执行，可以避免多个goroutine同时访问共享资源时的数据竞争问题，实现安全的并发编程。</p>
-<p>下面是一个简单的Go语言程序，其中主函数启动了两个goroutine执行sum函数，并使用通道channel同步对结果的访问，以实现安全的并发编程。</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(s []<span class="type">int</span>, c <span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    sum := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> s &#123;</span><br><span class="line">        sum += v</span><br><span class="line">    &#125;</span><br><span class="line">    c &lt;- sum <span class="comment">// 将sum发送到通道c中</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    s := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;</span><br><span class="line">    c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">    <span class="keyword">go</span> sum(s[:<span class="built_in">len</span>(s)/<span class="number">2</span>], c) <span class="comment">// 启动第一个goroutine计算前半部分和</span></span><br><span class="line">    <span class="keyword">go</span> sum(s[<span class="built_in">len</span>(s)/<span class="number">2</span>:], c) <span class="comment">// 启动第二个goroutine计算后半部分和</span></span><br><span class="line">    x, y := &lt;-c, &lt;-c        <span class="comment">// 从通道c中接收结果</span></span><br><span class="line">    fmt.Println(x, y, x+y)  <span class="comment">// 输出结果</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在该程序中，sum函数用于计算给定slice中元素的和，并将结果发送到通道c中。主函数main先创建一个slice s和一个整型通道c，然后启动两个goroutine同时计算s的前半部分和和后半部分和，并将结果发送到同一个通道c中进行汇总。<br>最后，主函数main从通道c中接收两个值，求和并输出结果。由于Go语言中的通道是线程安全的，因此可以实现多个goroutine之间的并发访问，而不会出现竞争问题。</p>
-<p>再一个小例子</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(from <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123;</span><br><span class="line">        fmt.Println(from, <span class="string">&quot;:&quot;</span>, i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">    f(<span class="string">&quot;direct&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">go</span> f(<span class="string">&quot;goroutine&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(msg <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">        fmt.Println(msg)</span><br><span class="line">    &#125;(<span class="string">&quot;going&quot;</span>)</span><br><span class="line"></span><br><span class="line">    time.Sleep(time.Second)</span><br><span class="line">    fmt.Println(<span class="string">&quot;done&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Go</category>
-      </categories>
-      <tags>
-        <tag>Go</tag>
-        <tag>多线程</tag>
-        <tag>协程</tag>
       </tags>
   </entry>
 </search>

@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230509154635.png">
 <meta property="og:image" content="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230510212126.png">
 <meta property="article:published_time" content="2023-05-10T13:22:34.000Z">
-<meta property="article:modified_time" content="2023-05-10T13:23:10.587Z">
+<meta property="article:modified_time" content="2023-05-10T13:27:02.330Z">
 <meta property="article:author" content="NNZ">
 <meta property="article:tag" content="Spring">
 <meta property="article:tag" content="事务">
@@ -207,7 +207,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2023-05-10 21:22:34 / Modified: 21:23:10" itemprop="dateCreated datePublished" datetime="2023-05-10T21:22:34+08:00">2023-05-10</time>
+              <time title="Created: 2023-05-10 21:22:34 / Modified: 21:27:02" itemprop="dateCreated datePublished" datetime="2023-05-10T21:22:34+08:00">2023-05-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -232,7 +232,7 @@
       
         <p>在不指定异常配置的时候，<code>@Transactional</code>注解默认在RuntimeException发生时回滚，如果是非运行时异常则不会进行回滚（比如SQLException、IOException等等）。</p>
 <p>因此一般指定<code>@Transactional(rollbackFor = Exception.class)</code></p>
-<h3 id="Transactional的rollbackFor为什么是RuntimeException"><a href="#Transactional的rollbackFor为什么是RuntimeException" class="headerlink" title="@Transactional的rollbackFor为什么是RuntimeException"></a>@Transactional的rollbackFor为什么是RuntimeException</h3><p>@Transactional是Spring的AOP实现的典型，在<code>TransactionAspectSupport#completeTransactionAfterThrowing</code>中可以看到rollback方法，即执行回滚操作。<br><img src="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230509154635.png" alt="image.png"><br>这里可以看到回滚的类型指定了运行时异常<br><img src="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230510212126.png" alt="image.png"></p>
+<h3 id="Transactional的rollbackFor为什么是RuntimeException"><a href="#Transactional的rollbackFor为什么是RuntimeException" class="headerlink" title="@Transactional的rollbackFor为什么是RuntimeException"></a>@Transactional的rollbackFor为什么是RuntimeException</h3><p>@Transactional是Spring的AOP实现的典型<br>在<code>TransactionAspectSupport#completeTransactionAfterThrowing</code>中可以看到rollback方法，即执行回滚操作。<br><img src="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230509154635.png" alt="image.png"><br>这里可以看到回滚的类型指定了运行时异常<br><img src="https://image-chenjiucai.oss-cn-hangzhou.aliyuncs.com/img/20230510212126.png" alt="image.png"></p>
 
     </div>
 
@@ -255,7 +255,10 @@
     <a href="/2023/05/10/GO%E7%9A%84%E6%96%B9%E6%B3%95%E5%80%BC%E5%92%8C%E6%96%B9%E6%B3%95%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="prev" title="GO的方法值和方法表达式">
       <i class="fa fa-chevron-left"></i> GO的方法值和方法表达式
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/05/10/GO%E5%AE%9E%E7%8E%B0Builder%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="next" title="GO实现Builder设计模式">
+      GO实现Builder设计模式 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -328,13 +331,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
