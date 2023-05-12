@@ -173,6 +173,206 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/12/%E5%9B%A0%E4%B8%BA%E7%AC%94%E5%90%8D%E7%9A%84%E9%BB%91%E5%8E%86%E5%8F%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="NNZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0484cjagw">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/12/%E5%9B%A0%E4%B8%BA%E7%AC%94%E5%90%8D%E7%9A%84%E9%BB%91%E5%8E%86%E5%8F%B2/" class="post-title-link" itemprop="url">因为笔名的黑历史</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-05-12 14:59:22 / Modified: 15:02:05" itemprop="dateCreated datePublished" datetime="2023-05-12T14:59:22+08:00">2023-05-12</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>高一时候的黑历史了，当时脑子抽了发笔名的时候故意发了个&amp;，笑死哈哈哈哈<br>只能说笔名这出效果大于百字令的效果了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/10/Java%E5%8F%8C%E6%8C%87%E9%92%88%E5%AE%9E%E7%8E%B0%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="NNZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0484cjagw">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/10/Java%E5%8F%8C%E6%8C%87%E9%92%88%E5%AE%9E%E7%8E%B0%E6%8E%92%E5%BA%8F/" class="post-title-link" itemprop="url">Java双指针实现排序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-05-10 22:31:31 / Modified: 22:32:15" itemprop="dateCreated datePublished" datetime="2023-05-10T22:31:31+08:00">2023-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">Algorithm</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>给定一个乱序的数组，数组内有奇数和偶数，需要对这个数组重新排序，奇数从小到大放到前面，偶数从小到大放在后面。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] sortArrayByParity(<span class="type">int</span>[] nums) &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right &amp;&amp; nums[left] % <span class="number">2</span> == <span class="number">1</span>) &#123; <span class="comment">// 左指针找到第一个偶数</span></span><br><span class="line">            left++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right &amp;&amp; nums[right] % <span class="number">2</span> == <span class="number">0</span>) &#123; <span class="comment">// 右指针找到第一个奇数</span></span><br><span class="line">            right--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[left];</span><br><span class="line">            nums[left] = nums[right];</span><br><span class="line">            nums[right] = temp;</span><br><span class="line">            left++;</span><br><span class="line">            right--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Arrays.sort(nums, <span class="number">0</span>, left); <span class="comment">// 左指针及左边的区域为奇数区域，进行升序排序</span></span><br><span class="line">    Arrays.sort(nums, left, nums.length); <span class="comment">// 右指针及右边的区域为偶数区域，进行升序排序</span></span><br><span class="line">    <span class="keyword">return</span> nums;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>left 指针从左往右遍历数组，right 指针从右往左遍历数组。<br>当 left 指向的元素为奇数时，继续向右移动，否则停止移动；<br>当 right 指向的元素为偶数时，继续向左移动，否则停止移动。<br>若 left 和 right 指针都停止移动，则表示奇数和偶数已经被分到数组的左右两侧。最后，对奇数区域和偶数区域分别进行升序排序即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/10/DayNote20230510/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="NNZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0484cjagw">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/10/DayNote20230510/" class="post-title-link" itemprop="url">DayNote20230510</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-05-10 22:29:38 / Modified: 22:30:37" itemprop="dateCreated datePublished" datetime="2023-05-10T22:29:38+08:00">2023-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%97%A5%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">日记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>正道上的引路灯刚亮起微光，歧途上突然放起了礼花炮。—-B站：绝命墨菲</p>
+<p>但凡未得到，但凡是过去，总是最登对。—-《似是故人来》</p>
+<p>信息的充沛意味着其他东西的匮乏。<br>随着信息的发展，有价值的不是信息，而是注意力。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/10/GO%E5%AE%9E%E7%8E%B0Builder%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -666,233 +866,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/04/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84goroutine/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="NNZ">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0484cjagw">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/05/04/Go%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84goroutine/" class="post-title-link" itemprop="url">Go语言中的goroutine</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2023-05-04 15:12:31 / Modified: 15:31:01" itemprop="dateCreated datePublished" datetime="2023-05-04T15:12:31+08:00">2023-05-04</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Go语言的goroutine是轻量级线程，可以在同一个程序的同时运行多个函数和方法。它不需要重新分配堆栈的显式调用，自动进行内存管理，所以在创建和销毁上开销较小。</p>
-<p>使用goroutine可以实现并发编程，在Go语言中可以通过关键字”go”来启动一个goroutine，将函数或方法包装成一个新的goroutine运行。例如，go f(args)可以将函数f(args)包装成一个goroutine运行。<br>(To invoke this function in a goroutine, use go f(s). This new goroutine will execute concurrently with the calling one.)</p>
-<p>与线程不同的是，goroutine由Go运行时调度，操作系统不参与goroutine的调度。因此，Go语言中的goroutine能够更高效地使用系统资源，支持大规模并发，可以轻松地创建数千个goroutine，而不会出现效率下降和内存溢出等问题。</p>
-<p>另外，通过通道(channel)同步不同goroutine之间的执行，可以避免多个goroutine同时访问共享资源时的数据竞争问题，实现安全的并发编程。</p>
-<p>下面是一个简单的Go语言程序，其中主函数启动了两个goroutine执行sum函数，并使用通道channel同步对结果的访问，以实现安全的并发编程。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(s []<span class="type">int</span>, c <span class="keyword">chan</span> <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    sum := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _, v := <span class="keyword">range</span> s &#123;</span><br><span class="line">        sum += v</span><br><span class="line">    &#125;</span><br><span class="line">    c &lt;- sum <span class="comment">// 将sum发送到通道c中</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    s := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>&#125;</span><br><span class="line">    c := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">    <span class="keyword">go</span> sum(s[:<span class="built_in">len</span>(s)/<span class="number">2</span>], c) <span class="comment">// 启动第一个goroutine计算前半部分和</span></span><br><span class="line">    <span class="keyword">go</span> sum(s[<span class="built_in">len</span>(s)/<span class="number">2</span>:], c) <span class="comment">// 启动第二个goroutine计算后半部分和</span></span><br><span class="line">    x, y := &lt;-c, &lt;-c        <span class="comment">// 从通道c中接收结果</span></span><br><span class="line">    fmt.Println(x, y, x+y)  <span class="comment">// 输出结果</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在该程序中，sum函数用于计算给定slice中元素的和，并将结果发送到通道c中。主函数main先创建一个slice s和一个整型通道c，然后启动两个goroutine同时计算s的前半部分和和后半部分和，并将结果发送到同一个通道c中进行汇总。<br>最后，主函数main从通道c中接收两个值，求和并输出结果。由于Go语言中的通道是线程安全的，因此可以实现多个goroutine之间的并发访问，而不会出现竞争问题。</p>
-<p>再一个小例子</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(from <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123;</span><br><span class="line">        fmt.Println(from, <span class="string">&quot;:&quot;</span>, i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">    f(<span class="string">&quot;direct&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">go</span> f(<span class="string">&quot;goroutine&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(msg <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">        fmt.Println(msg)</span><br><span class="line">    &#125;(<span class="string">&quot;going&quot;</span>)</span><br><span class="line"></span><br><span class="line">    time.Sleep(time.Second)</span><br><span class="line">    fmt.Println(<span class="string">&quot;done&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/04/ConditionalOnMissingBean%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="NNZ">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0484cjagw">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/05/04/ConditionalOnMissingBean%E6%B3%A8%E8%A7%A3%E7%9A%84%E4%BD%9C%E7%94%A8/" class="post-title-link" itemprop="url">ConditionalOnMissingBean注解的作用</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2023-05-04 08:42:27 / Modified: 08:54:19" itemprop="dateCreated datePublished" datetime="2023-05-04T08:42:27+08:00">2023-05-04</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><code>@ConditionalOnMissingBean</code>是修饰Bean的注解，它的作用是在容器中不存在某个 Bean 的时候才注册当前 Bean。</p>
-<p>当一个类上添加了 <code>@ConditionalOnMissingBean</code> 注解后，在应用启动时，Spring 容器会检查当前上下文中是否已经存在该类型的 Bean。<br>如果不存在，就会将这个类声明的 Bean 加入到容器中；如果已经存在，则不会再注册该 Bean。</p>
-<p><code>@ConditionalOnMissingBean</code> 注解可以用来确保某个 Bean 只被注册一次，并避免由于重复注册导致的问题。同时，也可以用来控制 Bean 实例的创建和注册顺序，从而更好地管理应用的依赖关系。</p>
-<p><code>@ConditionalOnMissingBean</code>真正的意义在于其拓展性，当封装一个组件时，组件中有个默认的实现类，此时为这个默认实现类加上<code>@ConditionalOnMissingBean</code>注解。在外部使用时会用到自定义的Bean，此时出现多个相同类型的Bean，Spring会为我们选择不带<code>@ConditionalOnMissingBean</code>注解的Bean</p>
-<p>也就是说<code>@ConditionalOnMissingBean</code>是当没有个性化Bean时，提供一个默认的Bean</p>
-<p>PS：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lori/p/13490005.html">springboot~@ConditionalOnMissingBean注解的作用 - 张占岭 - 博客园</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0PDF%E5%AF%BC%E5%87%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="NNZ">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0484cjagw">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/04/27/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0PDF%E5%AF%BC%E5%87%BA/" class="post-title-link" itemprop="url">设计模式实现PDF导出</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2023-04-27 15:57:05" itemprop="dateCreated datePublished" datetime="2023-04-27T15:57:05+08:00">2023-04-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-05-06 16:58:37" itemprop="dateModified" datetime="2023-05-06T16:58:37+08:00">2023-05-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-pattern/" itemprop="url" rel="index"><span itemprop="name">Design pattern</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>一个导出PDF的需求，使用Builder设计模式，用于简化传递参数和执行多次画线操作的流程。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PdfBuilder</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> pageNumber;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> pageWidth;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> pageHeight;</span><br><span class="line">    <span class="keyword">private</span> List&lt;PdfLine&gt; lines = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfBuilder <span class="title function_">setPageNumber</span><span class="params">(<span class="type">int</span> pageNumber)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.pageNumber = pageNumber;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfBuilder <span class="title function_">setPageWidth</span><span class="params">(<span class="type">int</span> pageWidth)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.pageWidth = pageWidth;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfBuilder <span class="title function_">setPageHeight</span><span class="params">(<span class="type">int</span> pageHeight)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.pageHeight = pageHeight;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfBuilder <span class="title function_">addLine</span><span class="params">(<span class="type">int</span> startX, <span class="type">int</span> startY, <span class="type">int</span> endX, <span class="type">int</span> endY)</span> &#123;</span><br><span class="line">        lines.add(<span class="keyword">new</span> <span class="title class_">PdfLine</span>(startX, startY, endX, endY));</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> PdfDocument <span class="title function_">build</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 创建 PDF 文档对象</span></span><br><span class="line">        <span class="type">PdfDocument</span> <span class="variable">pdf</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PdfDocument</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 添加 PDF 页面</span></span><br><span class="line">        <span class="type">PdfPage</span> <span class="variable">page</span> <span class="operator">=</span> pdf.addNewPage(pageWidth, pageHeight, pageNumber);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在页面上画线</span></span><br><span class="line">        <span class="keyword">for</span> (PdfLine line : lines) &#123;</span><br><span class="line">            <span class="type">PdfCanvas</span> <span class="variable">canvas</span> <span class="operator">=</span> page.getCanvas();</span><br><span class="line">            canvas.beginText();</span><br><span class="line">            canvas.moveText(line.getStartX(), line.getStartY());</span><br><span class="line">            canvas.lineTo(line.getEndX(), line.getEndY());</span><br><span class="line">            canvas.stroke();</span><br><span class="line">            canvas.endText();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 返回 PDF 文档对象</span></span><br><span class="line">        <span class="keyword">return</span> pdf;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>首先定义一个 <code>PdfBuilder</code> 类用于组合 PDF 页面。通过调用 <code>setPageNumber()</code>、<code>setPageWidth()</code>、<code>setPageHeight()</code>、<code>addLine()</code> 方法来设置页面属性和画线操作，最后通过调用 <code>build()</code> 方法将页面属性和画线操作组合为一个 PDF 文档对象并返回。</p>
-<p>使用 Builder 设计模式可以让代码更加易读和易维护，同时避免了参数传递过程中出错的风险。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -962,18 +935,18 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
