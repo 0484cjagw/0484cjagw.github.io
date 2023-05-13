@@ -173,6 +173,70 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/13/%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2%E5%AF%BC%E8%87%B4%E7%9A%84%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="NNZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0484cjagw">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/13/%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2%E5%AF%BC%E8%87%B4%E7%9A%84%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88/" class="post-title-link" itemprop="url">多数据源切换导致的事务失效</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-05-13 11:13:53 / Modified: 11:49:37" itemprop="dateCreated datePublished" datetime="2023-05-13T11:13:53+08:00">2023-05-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>项目中配置了多个数据源，在serviceimpl中使用了<code>@Transactional</code>开启事务，并且调用了别的数据源的service方法（比如从库的查询），此时切换数据源失败导致SQL报错。</p>
+<p>主要原因是事务内的所有操作都基于连接数据库的<code>connection</code>，切换数据源导致原本的connection失效，需要重新连接，也就导致事务的失效。可以采用更改事务传播机制实现。</p>
+<p>在使用事务注解时，加上<code>propagation = Propagation.REQUIRES_NEW</code>参数，即内层方法被调用时，外层方法的事务被<code>挂起</code>。内层事务相对于外层事务是完全独立的，具有独立隔离性互不干扰。</p>
+<p>即一个事务配一个connection</p>
+<p>但是也要考虑发生异常导致的回滚情况。当一个事务抛出异常时，Spring 会回滚该事务及其所有嵌套的事务。因此外部事务发生异常时，内部事务即使成功也会被回滚。内部事务抛出异常外部事物也随之回滚。</p>
+<p><code>Propagation.REQUIRES_NEW</code>参考代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">outerMethod</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            innerMethod();</span><br><span class="line">            <span class="comment">// 如果 innerMethod 成功执行并提交了事务，则手动抛出异常来回滚外层事务</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="comment">/* 判断 innerMethod 是否提交了事务 */</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;inner method commit but outer method fail&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="comment">// 处理异常</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">innerMethod</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/12/%E5%9B%A0%E4%B8%BA%E7%AC%94%E5%90%8D%E7%9A%84%E9%BB%91%E5%8E%86%E5%8F%B2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -792,82 +856,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/05/RocketMQ%E4%B8%AD%E7%9A%84NameServer%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%8F%8A%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="NNZ">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0484cjagw">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/05/05/RocketMQ%E4%B8%AD%E7%9A%84NameServer%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%8F%8A%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">RocketMQ中的NameServer架构设计及启动流程</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2023-05-05 14:40:46 / Modified: 15:14:21" itemprop="dateCreated datePublished" datetime="2023-05-05T14:40:46+08:00">2023-05-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/RocketMQ/" itemprop="url" rel="index"><span itemprop="name">RocketMQ</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>NameServer就是一个简单的<code>Topic</code>路由注册中心，可以进行服务发现和负载均衡（高可用的来源</p>
-<p>Broker启动的时候会向所有的<code>NameServer</code>注册，生产者在发送消息时会先从NameServer中获取Broker消息服务器的地址列表，根据负载均衡算法选取一台Broker消息服务器发送消息。</p>
-<p>消费者和生产者在使用RocketMQ时，首先需要和NameServer建立连接，然后NameServer会将当前所有可用的Broker地址列表返回给它们。</p>
-<h3 id="NameServer启动"><a href="#NameServer启动" class="headerlink" title="NameServer启动"></a>NameServer启动</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> NamesrvController <span class="title function_">start</span><span class="params">(<span class="keyword">final</span> NamesrvController controller)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">null</span> == controller) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;NamesrvController is null&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 初始化</span></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">initResult</span> <span class="operator">=</span> controller.initialize();</span><br><span class="line">    <span class="keyword">if</span> (!initResult) &#123;</span><br><span class="line">        controller.shutdown();</span><br><span class="line">        System.exit(-<span class="number">3</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关闭钩子，可以在关闭前进行一些操作</span></span><br><span class="line">    Runtime.getRuntime().addShutdownHook(<span class="keyword">new</span> <span class="title class_">ShutdownHookThread</span>(log, <span class="keyword">new</span> <span class="title class_">Callable</span>&lt;Void&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Void <span class="title function_">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">            <span class="comment">//这里就是钩子所做的操作，比如关闭线程池，关闭资源等等</span></span><br><span class="line">            controller.shutdown();</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;));</span><br><span class="line">    <span class="comment">//启动</span></span><br><span class="line">    controller.start();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> controller;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>可以先看看initialize()的初始化操作，主要是开启Netty，并且移除不活跃的Broker</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">initialize</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 加载 kv 配置</span></span><br><span class="line">    <span class="built_in">this</span>.kvConfigManager.load();</span><br><span class="line">    <span class="comment">// 创建 netty 远程服务</span></span><br><span class="line">    <span class="built_in">this</span>.remotingServer = <span class="keyword">new</span> <span class="title class_">NettyRemotingServer</span>(<span class="built_in">this</span>.nettyServerConfig, <span class="built_in">this</span>.brokerHousekeepingService);</span><br><span class="line">    <span class="comment">// netty 远程服务线程</span></span><br><span class="line">    <span class="built_in">this</span>.remotingExecutor =</span><br><span class="line">        Executors.newFixedThreadPool(nettyServerConfig.getServerWorkerThreads(), <span class="keyword">new</span> <span class="title class_">ThreadFactoryImpl</span>(<span class="string">&quot;RemotingExecutorThread_&quot;</span>));</span><br><span class="line">    <span class="comment">// 注册，就是把 remotingExecutor 注册到 remotingServer</span></span><br><span class="line">    <span class="built_in">this</span>.registerProcessor();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//每隔10s扫描一次Broker，移除不活跃的broker，</span></span><br><span class="line">    <span class="built_in">this</span>.scheduledExecutorService.scheduleAtFixedRate(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            NamesrvController.<span class="built_in">this</span>.routeInfoManager.scanNotActiveBroker();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="number">5</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>.scheduledExecutorService.scheduleAtFixedRate(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;...&#125;, <span class="number">1</span>, <span class="number">10</span>, TimeUnit.MINUTES);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (TlsSystemConfig.tlsMode != TlsMode.DISABLED) &#123;...&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">registerProcessor</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (namesrvConfig.isClusterTest()) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">this</span>.remotingServer.registerDefaultProcessor(<span class="keyword">new</span> <span class="title class_">ClusterTestRequestProcessor</span>(<span class="built_in">this</span>, namesrvConfig.getProductEnvName()),</span><br><span class="line">            <span class="built_in">this</span>.remotingExecutor);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">this</span>.remotingServer.registerDefaultProcessor(<span class="keyword">new</span> <span class="title class_">DefaultRequestProcessor</span>(<span class="built_in">this</span>), <span class="built_in">this</span>.remotingExecutor);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="初始化NettyRemotingServer"><a href="#初始化NettyRemotingServer" class="headerlink" title="初始化NettyRemotingServer"></a>初始化NettyRemotingServer</h3><p>在initialize方法中有个NettyRemotingServer，其作用是NameServer注册中心对外开放的入口，用来接收Broker的注册消息。</p>
-<p>PS：<br><a target="_blank" rel="noopener" href="https://juejin.cn/post/7194784992797392953#">RocketMQ源码2-NameServer架构设计及启动流程 - 掘金</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -937,7 +925,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -948,7 +936,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
