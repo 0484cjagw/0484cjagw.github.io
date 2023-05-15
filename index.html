@@ -173,6 +173,171 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/15/Spring%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="NNZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0484cjagw">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/15/Spring%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1/" class="post-title-link" itemprop="url">Spring中的事务</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-05-15 08:54:59 / Modified: 08:59:05" itemprop="dateCreated datePublished" datetime="2023-05-15T08:54:59+08:00">2023-05-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="事务传播机制"><a href="#事务传播机制" class="headerlink" title="事务传播机制"></a>事务传播机制</h2><table>
+<thead>
+<tr>
+<th>传播行为</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PROPAGATION_REQUIRED</td>
+<td>默认事务传播级别，如果调用方存在事务，就直接加入，不存在就创建事务，保证一定是事务的执行</td>
+</tr>
+<tr>
+<td>PROPAGATION_REQUIRE_NEW</td>
+<td>不管怎样都会创建新的事务，外部事务的回滚不会影响内部事务的正常提交</td>
+</tr>
+<tr>
+<td>PROPAGATION_NESTED</td>
+<td>当前存在事务就嵌套执行，不存在就新建，但是外部事务影响内部事务，内部不会影响外部</td>
+</tr>
+<tr>
+<td>PROPAGATION_SUPPORT</td>
+<td>当前存在事务就加入，不存在就非事务运行</td>
+</tr>
+<tr>
+<td>PROPAGATION_NOT_SUPPORT</td>
+<td>当前存在事务就挂起，不存在就非事务运行</td>
+</tr>
+<tr>
+<td>PROPAGATION_MANDATORY</td>
+<td>强制事务执行，不存在事务则抛出异常</td>
+</tr>
+<tr>
+<td>PROPAGATION_NEVER</td>
+<td>当前存在事务就抛异常，不存在就非事务运行（和上条相反）</td>
+</tr>
+</tbody></table>
+<h2 id="Transactional声明式注解原理"><a href="#Transactional声明式注解原理" class="headerlink" title="Transactional声明式注解原理"></a>Transactional声明式注解原理</h2><p>原理大致是动态代理service类，在方法执行一块做环绕通知，目标方法就是在环绕通知的内部去执行<br>Transactional注解本身也是使用AOP去实现<br>比如在注解修饰的方法里做插入操作，其实是Spring将代理类放到try catch代码块中，抛出异常就执行catch语句里的回滚操作，正常执行就通过事务管理器和JDBC去执行commit操作<br>所以在<strong>注解修饰的方法中去try catch，方法内部就接住了异常，方法外部接收不到异常，就无法进行正常的回滚，因为Spring认为你的方法没有任何异常</strong></p>
+<h3 id="TransactionInterceptor"><a href="#TransactionInterceptor" class="headerlink" title="TransactionInterceptor"></a>TransactionInterceptor</h3><p>事务的拦截器<br>自动装配到Spring中，SpringBoot的autoconfiguartion下的spring.factories文件，所有的自动配置文件路径都在里面<br>具体加载哪个也要看Conditional注解</p>
+<h3 id="事务失效的几种情况"><a href="#事务失效的几种情况" class="headerlink" title="事务失效的几种情况"></a>事务失效的几种情况</h3><ol>
+<li>数据库本身不支持事务</li>
+<li>没有被Spring管理</li>
+<li>数据源没有配置事务管理器</li>
+<li>传播机制配置了不支持事务（或者是事务传播机制设置错误）</li>
+<li>异常没有抛出，Spring捕获不到异常</li>
+</ol>
+<h2 id="PS："><a href="#PS：" class="headerlink" title="PS："></a>PS：</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jing99/p/11495252.html#:~:text=Spring%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E5%85%B3%E4%BA%8E%E4%BA%8B%E5%8A%A1%E9%85%8D%E7%BD%AE%E6%80%BB%E6%98%AF%E7%94%B1%E4%B8%89%E4%B8%AA%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86%EF%BC%8C%E5%88%86%E5%88%AB%E6%98%AF%20DataSource%20%E3%80%81%20TransactionManager%20%E5%92%8C,%E4%BB%A3%E7%90%86%E6%9C%BA%E5%88%B6%20%E8%BF%99%E4%B8%89%E9%83%A8%E5%88%86%EF%BC%8C%E6%97%A0%E8%AE%BA%E5%93%AA%E7%A7%8D%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F%EF%BC%8C%E4%B8%80%E8%88%AC%E5%8F%98%E5%8C%96%E7%9A%84%E5%8F%AA%E6%98%AF%E4%BB%A3%E7%90%86%E6%9C%BA%E5%88%B6%E8%BF%99%E9%83%A8%E5%88%86%E3%80%82%20DataSource%E3%80%81TransactionManager%E8%BF%99%E4%B8%A4%E9%83%A8%E5%88%86%E5%8F%AA%E6%98%AF%E4%BC%9A%E6%A0%B9%E6%8D%AE%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE%E6%96%B9%E5%BC%8F%E6%9C%89%E6%89%80%E5%8F%98%E5%8C%96%EF%BC%8C%E6%AF%94%E5%A6%82%E4%BD%BF%E7%94%A8Hibernate%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE%E6%97%B6%EF%BC%8CDataSource%E5%AE%9E%E9%99%85%E4%B8%BASessionFactory%EF%BC%8CTransactionManager%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%BAHibernateTransactionManager%E3%80%82%20%E5%85%B7%E4%BD%93%E5%A6%82%E4%B8%8B%E5%9B%BE%EF%BC%9A%20%E4%BA%8B%E5%8A%A1%E7%9A%84TransactionManager%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86%E5%99%A8%E6%80%BB%E5%85%B1%E6%9C%895%E7%A7%8D%EF%BC%8C%E4%B8%8EDataSource%E5%85%B3%E8%81%94%E5%85%B3%E7%B3%BB%E5%A6%82%E5%9B%BE%E6%89%80%E7%A4%BA%EF%BC%9A%20%E6%A0%B9%E6%8D%AE%E4%BB%A3%E7%90%86%E6%9C%BA%E5%88%B6%E7%9A%84%E4%B8%8D%E5%90%8C%EF%BC%8C%E6%80%BB%E7%BB%93%E4%BA%86%E4%BA%94%E7%A7%8DSpring%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F%EF%BC%8C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%A6%82%E4%B8%8B%EF%BC%9A">Spring事务的配置、参数详情及其原理介绍(Transactional) - kosamino - 博客园</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/13/RocketMQ%E4%B8%AD%E5%90%91Broker%E5%8F%91%E9%80%81%E5%BF%83%E8%B7%B3%E8%A7%A3%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="NNZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0484cjagw">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/13/RocketMQ%E4%B8%AD%E5%90%91Broker%E5%8F%91%E9%80%81%E5%BF%83%E8%B7%B3%E8%A7%A3%E6%9E%90/" class="post-title-link" itemprop="url">RocketMQ中向Broker发送心跳解析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-05-13 12:54:17 / Modified: 13:03:02" itemprop="dateCreated datePublished" datetime="2023-05-13T12:54:17+08:00">2023-05-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>向Broker发送心跳包操作主要在sendHeartbeatToAllBroker方法中，其中，<code>this.sendHeartbeatTimesTotal</code> 是一个 AtomicLong 类型的计数器，用于记录当前已经发送的心跳次数。<br>其中可以看到之所以使用<code>times % 20 == 0</code>判断心跳发送成功，是因为 RocketMQ 在设计时考虑到了网络抖动等问题，为了确保心跳的稳定性，在每隔 20 次心跳发送后才认为心跳发送成功，从而将心跳检测的粒度调整到了 20 次一个心跳确定。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendHeartbeatToAllBrokerWithLock</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.lockHeartbeat.tryLock()) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// todo 调用sendHeartbeatToAllBroker向Broker发送心跳</span></span><br><span class="line">            <span class="built_in">this</span>.sendHeartbeatToAllBroker();</span><br><span class="line">            <span class="built_in">this</span>.uploadFilterClassSource();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> Exception e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;sendHeartbeatToAllBroker exception&quot;</span>, e);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.lockHeartbeat.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        log.warn(<span class="string">&quot;lock heartBeat, but failed. [&#123;&#125;]&quot;</span>, <span class="built_in">this</span>.clientId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">sendHeartbeatToAllBroker</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">HeartbeatData</span> <span class="variable">heartbeatData</span> <span class="operator">=</span> <span class="built_in">this</span>.prepareHeartbeatData();</span><br><span class="line">    <span class="keyword">final</span> <span class="type">boolean</span> <span class="variable">producerEmpty</span> <span class="operator">=</span> heartbeatData.getProducerDataSet().isEmpty();</span><br><span class="line">    <span class="keyword">final</span> <span class="type">boolean</span> <span class="variable">consumerEmpty</span> <span class="operator">=</span> heartbeatData.getConsumerDataSet().isEmpty();</span><br><span class="line">    <span class="keyword">if</span> (producerEmpty &amp;&amp; consumerEmpty) &#123;</span><br><span class="line">        log.warn(<span class="string">&quot;sending heartbeat, but no consumer and no producer. [&#123;&#125;]&quot;</span>, <span class="built_in">this</span>.clientId);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">this</span>.brokerAddrTable.isEmpty()) &#123;</span><br><span class="line">        <span class="comment">//一个 AtomicLong 类型的计数器，用于记录当前已经发送的心跳次数。</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">times</span> <span class="operator">=</span> <span class="built_in">this</span>.sendHeartbeatTimesTotal.getAndIncrement();</span><br><span class="line">        <span class="comment">// 获取所有的Broker进行遍历， key为 Broker Name， value为同一个name下的所有Broker实例（主从模式下Broker的name一致）</span></span><br><span class="line">        Iterator&lt;Entry&lt;String, HashMap&lt;Long, String&gt;&gt;&gt; it = <span class="built_in">this</span>.brokerAddrTable.entrySet().iterator();</span><br><span class="line">        <span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">            Entry&lt;String, HashMap&lt;Long, String&gt;&gt; entry = it.next();</span><br><span class="line">            <span class="type">String</span> <span class="variable">brokerName</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">            <span class="comment">// 获取同一个Broker Name下的所有Broker实例</span></span><br><span class="line">            HashMap&lt;Long, String&gt; oneTable = entry.getValue();</span><br><span class="line">            <span class="keyword">if</span> (oneTable != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="comment">// 遍历所有的实例</span></span><br><span class="line">                <span class="keyword">for</span> (Map.Entry&lt;Long, String&gt; entry1 : oneTable.entrySet()) &#123;</span><br><span class="line">                    <span class="type">Long</span> <span class="variable">id</span> <span class="operator">=</span> entry1.getKey();</span><br><span class="line">                    <span class="type">String</span> <span class="variable">addr</span> <span class="operator">=</span> entry1.getValue();</span><br><span class="line">                    <span class="keyword">if</span> (addr != <span class="literal">null</span>) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (consumerEmpty) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (id != MixAll.MASTER_ID)</span><br><span class="line">                                <span class="keyword">continue</span>;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            <span class="comment">// todo 发送心跳</span></span><br><span class="line">                            <span class="type">int</span> <span class="variable">version</span> <span class="operator">=</span> <span class="built_in">this</span>.mQClientAPIImpl.sendHearbeat(addr, heartbeatData, <span class="number">3000</span>);</span><br><span class="line">                            <span class="keyword">if</span> (!<span class="built_in">this</span>.brokerVersionTable.containsKey(brokerName)) &#123;</span><br><span class="line">                                <span class="built_in">this</span>.brokerVersionTable.put(brokerName, <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;String, Integer&gt;(<span class="number">4</span>));</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="built_in">this</span>.brokerVersionTable.get(brokerName).put(addr, version);</span><br><span class="line">                            <span class="keyword">if</span> (times % <span class="number">20</span> == <span class="number">0</span>) &#123;</span><br><span class="line">                                log.info(<span class="string">&quot;send heart beat to broker[&#123;&#125; &#123;&#125; &#123;&#125;] success&quot;</span>, brokerName, id, addr);</span><br><span class="line">                                log.info(heartbeatData.toString());</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (<span class="built_in">this</span>.isBrokerInNameServer(addr)) &#123;</span><br><span class="line">                                log.info(<span class="string">&quot;send heart beat to broker[&#123;&#125; &#123;&#125; &#123;&#125;] failed&quot;</span>, brokerName, id, addr, e);</span><br><span class="line">                            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                                log.info(<span class="string">&quot;send heart beat to broker[&#123;&#125; &#123;&#125; &#123;&#125;] exception, because the broker not up, forget it&quot;</span>, brokerName,</span><br><span class="line">                                    id, addr, e);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实也可以看到，所谓的心跳操作，只是对hashMap成员变量做操作</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/13/%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%88%87%E6%8D%A2%E5%AF%BC%E8%87%B4%E7%9A%84%E4%BA%8B%E5%8A%A1%E5%A4%B1%E6%95%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -198,7 +363,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2023-05-13 11:13:53 / Modified: 11:49:37" itemprop="dateCreated datePublished" datetime="2023-05-13T11:13:53+08:00">2023-05-13</time>
+              <time title="Created: 2023-05-13 11:13:53 / Modified: 11:51:04" itemprop="dateCreated datePublished" datetime="2023-05-13T11:13:53+08:00">2023-05-13</time>
             </span>
 
           
@@ -215,7 +380,7 @@
           <p>项目中配置了多个数据源，在serviceimpl中使用了<code>@Transactional</code>开启事务，并且调用了别的数据源的service方法（比如从库的查询），此时切换数据源失败导致SQL报错。</p>
 <p>主要原因是事务内的所有操作都基于连接数据库的<code>connection</code>，切换数据源导致原本的connection失效，需要重新连接，也就导致事务的失效。可以采用更改事务传播机制实现。</p>
 <p>在使用事务注解时，加上<code>propagation = Propagation.REQUIRES_NEW</code>参数，即内层方法被调用时，外层方法的事务被<code>挂起</code>。内层事务相对于外层事务是完全独立的，具有独立隔离性互不干扰。</p>
-<p>即一个事务配一个connection</p>
+<p>即<code>一个事务配一个connection</code></p>
 <p>但是也要考虑发生异常导致的回滚情况。当一个事务抛出异常时，Spring 会回滚该事务及其所有嵌套的事务。因此外部事务发生异常时，内部事务即使成功也会被回滚。内部事务抛出异常外部事物也随之回滚。</p>
 <p><code>Propagation.REQUIRES_NEW</code>参考代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRED)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">outerMethod</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            innerMethod();</span><br><span class="line">            <span class="comment">// 如果 innerMethod 成功执行并提交了事务，则手动抛出异常来回滚外层事务</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="comment">/* 判断 innerMethod 是否提交了事务 */</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;inner method commit but outer method fail&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="comment">// 处理异常</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional(propagation = Propagation.REQUIRES_NEW)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">innerMethod</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -714,148 +879,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/06/newCode-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="NNZ">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0484cjagw">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/05/06/newCode-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">newCode_字符串操作</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2023-05-06 17:00:16 / Modified: 17:02:38" itemprop="dateCreated datePublished" datetime="2023-05-06T17:00:16+08:00">2023-05-06</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">Algorithm</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>给定一个只包含小写字母字符串，每次可以选择两个相同的字符删除，并在字符串结尾新增任意一个小写字母。<br>请问最少多少次操作后，所有的字母都不相同？</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 返回满足题意的最小操作数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> str string字符串 给定字符串</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> int整型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minOperations</span> <span class="params">(String str)</span> &#123;</span><br><span class="line">        <span class="comment">// write code here</span></span><br><span class="line">        <span class="type">int</span>[] map = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">26</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> str.length();</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">char</span> c : str.toCharArray())&#123;</span><br><span class="line">            <span class="keyword">if</span>(map[c - <span class="string">&#x27;a&#x27;</span>] == <span class="number">1</span>)&#123;</span><br><span class="line">                res++;</span><br><span class="line">                map[c - <span class="string">&#x27;a&#x27;</span>] = <span class="number">0</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                map[c - <span class="string">&#x27;a&#x27;</span>] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n - res &gt; <span class="number">26</span> ? n - <span class="number">26</span> : res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>PS:<br><a target="_blank" rel="noopener" href="https://www.nowcoder.com/questionTerminal/4b416a55d9a84da597c36baf54afa469">字符串操作</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/06/Go%E5%AE%9E%E7%8E%B0basename%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="NNZ">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0484cjagw">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/05/06/Go%E5%AE%9E%E7%8E%B0basename%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">Go实现basename方法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2023-05-06 16:38:40 / Modified: 16:40:12" itemprop="dateCreated datePublished" datetime="2023-05-06T16:38:40+08:00">2023-05-06</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>basename函数灵感源于Unix shell的同名工具。在我们实现的版本中，basename(s)将看起来像是系统路径的前缀删除，同时将看似文件类型的后缀名部分删除：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">basename</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="built_in">len</span>(s) - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i-- &#123;</span><br><span class="line">		<span class="keyword">if</span> s[i] == <span class="string">&#x27;/&#x27;</span> &#123;</span><br><span class="line">			s = s[i+<span class="number">1</span>:]</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="built_in">len</span>(s) - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i-- &#123;</span><br><span class="line">		<span class="keyword">if</span> s[i] == <span class="string">&#x27;.&#x27;</span> &#123;</span><br><span class="line">			s = s[:i]</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(basename(<span class="string">&quot;a/b/c.go&quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>也可以使用strings.LastIndex库函数进行简化：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">basename</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">    slash := strings.LastIndex(s, <span class="string">&quot;/&quot;</span>) <span class="comment">// -1 if &quot;/&quot; not found</span></span><br><span class="line">    s = s[slash+<span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">if</span> dot := strings.LastIndex(s, <span class="string">&quot;.&quot;</span>); dot &gt;= <span class="number">0</span> &#123;</span><br><span class="line">        s = s[:dot]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -925,7 +948,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
