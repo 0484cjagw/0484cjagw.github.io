@@ -173,6 +173,64 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/07/08/%E4%BB%8E1%E5%88%B0100%E8%AE%A1%E6%95%B0%EF%BC%9F%EF%BC%9F%EF%BC%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="NNZ">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0484cjagw">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/07/08/%E4%BB%8E1%E5%88%B0100%E8%AE%A1%E6%95%B0%EF%BC%9F%EF%BC%9F%EF%BC%9F/" class="post-title-link" itemprop="url">从1到100计数？？？</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2023-07-08 09:00:12 / Modified: 09:02:36" itemprop="dateCreated datePublished" datetime="2023-07-08T09:00:12+08:00">2023-07-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> Bruce</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Summation</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Summation</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="type">Summation</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Summation <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Summation.class)&#123;</span><br><span class="line">                <span class="keyword">if</span> (instance == <span class="literal">null</span>)&#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> <span class="title class_">Summation</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title function_">count</span><span class="params">(<span class="type">int</span> start, <span class="type">int</span> end)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (start + end) % <span class="number">2</span> == <span class="number">1</span> ? (((end + start - <span class="number">1</span>) &gt;&gt; <span class="number">1</span>) * ((end - start - <span class="number">1</span>) + <span class="number">1</span>) + end) : (((end + start) &gt;&gt; <span class="number">1</span>) * (end - start) + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/15/Spring%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -300,10 +358,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2023-05-13 12:54:17 / Modified: 13:03:02" itemprop="dateCreated datePublished" datetime="2023-05-13T12:54:17+08:00">2023-05-13</time>
+              <time title="Created: 2023-05-13 12:54:17" itemprop="dateCreated datePublished" datetime="2023-05-13T12:54:17+08:00">2023-05-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-05-15 09:23:02" itemprop="dateModified" datetime="2023-05-15T09:23:02+08:00">2023-05-15</time>
+              </span>
 
           
 
@@ -319,6 +383,8 @@
           <p>向Broker发送心跳包操作主要在sendHeartbeatToAllBroker方法中，其中，<code>this.sendHeartbeatTimesTotal</code> 是一个 AtomicLong 类型的计数器，用于记录当前已经发送的心跳次数。<br>其中可以看到之所以使用<code>times % 20 == 0</code>判断心跳发送成功，是因为 RocketMQ 在设计时考虑到了网络抖动等问题，为了确保心跳的稳定性，在每隔 20 次心跳发送后才认为心跳发送成功，从而将心跳检测的粒度调整到了 20 次一个心跳确定。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sendHeartbeatToAllBrokerWithLock</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.lockHeartbeat.tryLock()) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// todo 调用sendHeartbeatToAllBroker向Broker发送心跳</span></span><br><span class="line">            <span class="built_in">this</span>.sendHeartbeatToAllBroker();</span><br><span class="line">            <span class="built_in">this</span>.uploadFilterClassSource();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> Exception e) &#123;</span><br><span class="line">            log.error(<span class="string">&quot;sendHeartbeatToAllBroker exception&quot;</span>, e);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.lockHeartbeat.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        log.warn(<span class="string">&quot;lock heartBeat, but failed. [&#123;&#125;]&quot;</span>, <span class="built_in">this</span>.clientId);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">sendHeartbeatToAllBroker</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">HeartbeatData</span> <span class="variable">heartbeatData</span> <span class="operator">=</span> <span class="built_in">this</span>.prepareHeartbeatData();</span><br><span class="line">    <span class="keyword">final</span> <span class="type">boolean</span> <span class="variable">producerEmpty</span> <span class="operator">=</span> heartbeatData.getProducerDataSet().isEmpty();</span><br><span class="line">    <span class="keyword">final</span> <span class="type">boolean</span> <span class="variable">consumerEmpty</span> <span class="operator">=</span> heartbeatData.getConsumerDataSet().isEmpty();</span><br><span class="line">    <span class="keyword">if</span> (producerEmpty &amp;&amp; consumerEmpty) &#123;</span><br><span class="line">        log.warn(<span class="string">&quot;sending heartbeat, but no consumer and no producer. [&#123;&#125;]&quot;</span>, <span class="built_in">this</span>.clientId);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">this</span>.brokerAddrTable.isEmpty()) &#123;</span><br><span class="line">        <span class="comment">//一个 AtomicLong 类型的计数器，用于记录当前已经发送的心跳次数。</span></span><br><span class="line">        <span class="type">long</span> <span class="variable">times</span> <span class="operator">=</span> <span class="built_in">this</span>.sendHeartbeatTimesTotal.getAndIncrement();</span><br><span class="line">        <span class="comment">// 获取所有的Broker进行遍历， key为 Broker Name， value为同一个name下的所有Broker实例（主从模式下Broker的name一致）</span></span><br><span class="line">        Iterator&lt;Entry&lt;String, HashMap&lt;Long, String&gt;&gt;&gt; it = <span class="built_in">this</span>.brokerAddrTable.entrySet().iterator();</span><br><span class="line">        <span class="keyword">while</span> (it.hasNext()) &#123;</span><br><span class="line">            Entry&lt;String, HashMap&lt;Long, String&gt;&gt; entry = it.next();</span><br><span class="line">            <span class="type">String</span> <span class="variable">brokerName</span> <span class="operator">=</span> entry.getKey();</span><br><span class="line">            <span class="comment">// 获取同一个Broker Name下的所有Broker实例</span></span><br><span class="line">            HashMap&lt;Long, String&gt; oneTable = entry.getValue();</span><br><span class="line">            <span class="keyword">if</span> (oneTable != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="comment">// 遍历所有的实例</span></span><br><span class="line">                <span class="keyword">for</span> (Map.Entry&lt;Long, String&gt; entry1 : oneTable.entrySet()) &#123;</span><br><span class="line">                    <span class="type">Long</span> <span class="variable">id</span> <span class="operator">=</span> entry1.getKey();</span><br><span class="line">                    <span class="type">String</span> <span class="variable">addr</span> <span class="operator">=</span> entry1.getValue();</span><br><span class="line">                    <span class="keyword">if</span> (addr != <span class="literal">null</span>) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (consumerEmpty) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (id != MixAll.MASTER_ID)</span><br><span class="line">                                <span class="keyword">continue</span>;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">try</span> &#123;</span><br><span class="line">                            <span class="comment">// todo 发送心跳</span></span><br><span class="line">                            <span class="type">int</span> <span class="variable">version</span> <span class="operator">=</span> <span class="built_in">this</span>.mQClientAPIImpl.sendHearbeat(addr, heartbeatData, <span class="number">3000</span>);</span><br><span class="line">                            <span class="keyword">if</span> (!<span class="built_in">this</span>.brokerVersionTable.containsKey(brokerName)) &#123;</span><br><span class="line">                                <span class="built_in">this</span>.brokerVersionTable.put(brokerName, <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;String, Integer&gt;(<span class="number">4</span>));</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="built_in">this</span>.brokerVersionTable.get(brokerName).put(addr, version);</span><br><span class="line">                            <span class="keyword">if</span> (times % <span class="number">20</span> == <span class="number">0</span>) &#123;</span><br><span class="line">                                log.info(<span class="string">&quot;send heart beat to broker[&#123;&#125; &#123;&#125; &#123;&#125;] success&quot;</span>, brokerName, id, addr);</span><br><span class="line">                                log.info(heartbeatData.toString());</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (<span class="built_in">this</span>.isBrokerInNameServer(addr)) &#123;</span><br><span class="line">                                log.info(<span class="string">&quot;send heart beat to broker[&#123;&#125; &#123;&#125; &#123;&#125;] failed&quot;</span>, brokerName, id, addr, e);</span><br><span class="line">                            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                                log.info(<span class="string">&quot;send heart beat to broker[&#123;&#125; &#123;&#125; &#123;&#125;] exception, because the broker not up, forget it&quot;</span>, brokerName,</span><br><span class="line">                                    id, addr, e);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其实也可以看到，所谓的心跳操作，只是对hashMap成员变量做操作</p>
+<p>最终的执行方法为：<code>MQClientAPIImpl#sendHearbeat</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">sendHearbeat</span><span class="params">(</span></span><br><span class="line"><span class="params">    <span class="keyword">final</span> String addr,</span></span><br><span class="line"><span class="params">    <span class="keyword">final</span> HeartbeatData heartbeatData,</span></span><br><span class="line"><span class="params">    <span class="keyword">final</span> <span class="type">long</span> timeoutMillis</span></span><br><span class="line"><span class="params">)</span> <span class="keyword">throws</span> RemotingException, MQBrokerException, InterruptedException &#123;</span><br><span class="line">    <span class="comment">// request 的 code 为 HEART_BEAT</span></span><br><span class="line">    <span class="type">RemotingCommand</span> <span class="variable">request</span> <span class="operator">=</span> RemotingCommand</span><br><span class="line">        .createRequestCommand(RequestCode.HEART_BEAT, <span class="literal">null</span>);</span><br><span class="line">    request.setLanguage(clientConfig.getLanguage());</span><br><span class="line">    request.setBody(heartbeatData.encode());</span><br><span class="line">    <span class="comment">// 异步调用</span></span><br><span class="line">    <span class="type">RemotingCommand</span> <span class="variable">response</span> <span class="operator">=</span> <span class="built_in">this</span>.remotingClient</span><br><span class="line">        .invokeSync(addr, request, timeoutMillis);</span><br><span class="line">    <span class="keyword">assert</span> response != <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">switch</span> (response.getCode()) &#123;</span><br><span class="line">        <span class="keyword">case</span> ResponseCode.SUCCESS: &#123;</span><br><span class="line">            <span class="keyword">return</span> response.getVersion();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">MQBrokerException</span>(response.getCode(), response.getRemark(), addr);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -811,74 +877,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/08/lc146-LRU%E7%BC%93%E5%AD%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="NNZ">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0484cjagw">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/05/08/lc146-LRU%E7%BC%93%E5%AD%98/" class="post-title-link" itemprop="url">lc146.LRU缓存</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2023-05-08 08:14:19 / Modified: 08:32:53" itemprop="dateCreated datePublished" datetime="2023-05-08T08:14:19+08:00">2023-05-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index"><span itemprop="name">Algorithm</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>类似于写一个LinkedHashMap，注意插入节点时的判断以及双向链表修改时的操作</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LRUCache</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Node</span>&#123;</span><br><span class="line">        Node prev;</span><br><span class="line">        Node next;</span><br><span class="line">        <span class="type">int</span> key;</span><br><span class="line">        <span class="type">int</span> value;</span><br><span class="line">        Node()&#123;&#125;</span><br><span class="line">        Node(<span class="type">int</span> key, <span class="type">int</span> value)&#123;</span><br><span class="line">            <span class="built_in">this</span>.key = key;</span><br><span class="line">            <span class="built_in">this</span>.value = value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Node dummyHead;</span><br><span class="line">    Node dummyTail;</span><br><span class="line">    <span class="type">int</span> size, capacity;</span><br><span class="line">    Map&lt;Integer, Node&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LRUCache</span><span class="params">(<span class="type">int</span> capacity)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.size = <span class="number">0</span>;</span><br><span class="line">        dummyHead = <span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">        dummyTail = <span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">        dummyHead.next = dummyTail;</span><br><span class="line">        dummyTail.prev = dummyHead;</span><br><span class="line">        <span class="built_in">this</span>.capacity = capacity;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">get</span><span class="params">(<span class="type">int</span> key)</span> &#123;</span><br><span class="line">        <span class="type">Node</span> <span class="variable">node</span> <span class="operator">=</span> map.get(key);</span><br><span class="line">        <span class="keyword">if</span>(node == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            add2Head(node);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> node.value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add2Head</span><span class="params">(Node node)</span>&#123;</span><br><span class="line">        removeNode(node);</span><br><span class="line">        addNode(node);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">removeNode</span><span class="params">(Node node)</span>&#123;</span><br><span class="line">        node.prev.next = node.next;</span><br><span class="line">        node.next.prev = node.prev;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addNode</span><span class="params">(Node node)</span>&#123;</span><br><span class="line">        dummyHead.next.prev = node;</span><br><span class="line">        node.next = dummyHead.next;</span><br><span class="line">        node.prev = dummyHead;</span><br><span class="line">        dummyHead.next = node;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">put</span><span class="params">(<span class="type">int</span> key, <span class="type">int</span> value)</span> &#123;</span><br><span class="line">        <span class="type">Node</span> <span class="variable">node</span> <span class="operator">=</span>  map.get(key);</span><br><span class="line">        <span class="keyword">if</span>(node != <span class="literal">null</span>)&#123;</span><br><span class="line">            node.value = value;</span><br><span class="line">            map.put(key, node);</span><br><span class="line">            add2Head(node);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            size++;</span><br><span class="line">            <span class="type">Node</span> <span class="variable">cur</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Node</span>(key, value);</span><br><span class="line">            map.put(key, cur);</span><br><span class="line">            addNode(cur);</span><br><span class="line">            <span class="keyword">if</span>(size &gt; capacity)&#123;</span><br><span class="line">                <span class="type">Node</span> <span class="variable">tail</span> <span class="operator">=</span> removeNodeFromTail();</span><br><span class="line">                map.remove(tail.key);</span><br><span class="line">                size--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Node <span class="title function_">removeNodeFromTail</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">Node</span> <span class="variable">tail</span> <span class="operator">=</span> dummyTail.prev;</span><br><span class="line">        dummyTail.prev = tail.prev;</span><br><span class="line">        tail.prev.next = dummyTail;</span><br><span class="line">        <span class="keyword">return</span> tail;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -948,7 +946,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
